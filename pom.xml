@@ -13,8 +13,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <!--Spring-->
         <spring-version>5.3.15</spring-version>
         <spring-data-jpa.version>2.6.2</spring-data-jpa.version>
+
+        <!-- Logging -->
+        <logback.version>1.2.10</logback.version>
+        <slf4j.version>1.7.35</slf4j.version>
 
         <!--Web-->
         <jstl.version>1.2</jstl.version>
@@ -38,6 +43,19 @@
     </build>
 
     <dependencies>
+        <!--Logging with SLF4J & LogBack-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!--Spring-->
         <dependency>
@@ -56,7 +74,6 @@
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
