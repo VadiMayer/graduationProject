@@ -9,7 +9,6 @@ public class Dish extends AbstractNamedEntity {
     private LocalDateTime updateDate;
 
 
-
     public int getCost() {
         return cost;
     }

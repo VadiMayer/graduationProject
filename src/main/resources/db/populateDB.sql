@@ -2,7 +2,7 @@ DELETE FROM user_roles;
 DELETE FROM users;
 DELETE FROM restaurant_dishes;
 DELETE FROM restaurants;
-ALTER SEQUENCE global_seq RESTART WITH 10000;
+ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password)
 VALUES ('VadimUserAdmin', 'vadim@gmail.com', 'vadim15'),
@@ -12,10 +12,10 @@ VALUES ('VadimUserAdmin', 'vadim@gmail.com', 'vadim15'),
        ('VikaGuest', 'guest2@gmail.com', 'vika6');
 
 INSERT INTO user_roles (role, user_id)
-VALUES ('USER', 10000),
-       ('ADMIN', 10000),
-       ('USER', 10001),
-       ('USER', 10002);
+VALUES ('USER', 100000),
+       ('ADMIN', 100000),
+       ('USER', 100001),
+       ('USER', 100002);
 
 INSERT INTO restaurants (name, rating)
 VALUES ('White rabbit', 201),
@@ -25,12 +25,12 @@ VALUES ('White rabbit', 201),
        ('Обломов', 145);
 
 INSERT INTO restaurant_dishes (name, cost, restaurant_id, update_date)
-VALUES ('Суп "Жабо"', 1400, 10005, now()),
-       ('Фрикадельки "Мисьён"', 1850, 10005, now()),
-       ('Коктейль "Агара"', 760, 10005, now()),
-       ('Котлеты "Банпулье"', 1540, 10006, now()),
-       ('Салат "Жандарм"', 470, 10006, now()),
-       ('Суп "Аладин"', 720, 10007, now()),
-       ('Второе "Плов"', 910, 10008, now()),
-       ('Суп "Анастасия"', 847, 10009, now()),
-       ('Фрукты "Питахайя"', 260, 10009, now());
+VALUES ('Суп "Жабо"', 1400, 100005, now()),
+       ('Фрикадельки "Мисьён"', 1850, 100005, '2022-04-10 10:00:00'),
+       ('Коктейль "Агара"', 760, 100005, now()),
+       ('Котлеты "Банпулье"', 1540, 100006, now()),
+       ('Салат "Жандарм"', 470, 100006, '2022-04-10 10:00:00'),
+       ('Суп "Аладин"', 720, 100007, now()),
+       ('Второе "Плов"', 910, 100008, now()),
+       ('Суп "Анастасия"', 847, 100009, '2022-04-10 10:00:00'),
+       ('Фрукты "Питахайя"', 260, 100009, now());

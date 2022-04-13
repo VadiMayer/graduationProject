@@ -1,5 +1,7 @@
 package topjava.quest.model;
 
+import org.springframework.util.Assert;
+
 import java.util.Objects;
 
 public abstract class AbstractBaseEntity {
@@ -19,6 +21,11 @@ public abstract class AbstractBaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int haveId() {
+        Assert.notNull(id, "Entity must have id");
+        return id;
     }
 
     public boolean isNew() {
