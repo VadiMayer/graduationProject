@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import topjava.quest.model.Restaurant;
 import topjava.quest.service.RestaurantService;
-import topjava.quest.to.DishTo;
+import topjava.quest.to.RestaurantTo;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public abstract class AbstractRestaurantController {
         restaurantService.delete(id);
     }
 
-    public List<DishTo> getAll() {
+    public List<RestaurantTo> getAll() {
         log.info("getAll for {}", getRestaurant_id());
         return null;
     }
