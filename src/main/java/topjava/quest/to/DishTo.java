@@ -2,7 +2,7 @@ package topjava.quest.to;
 
 import java.time.LocalDateTime;
 
-public class DishTo {
+public class DishTo implements Comparable<DishTo> {
 
     private final Integer id;
 
@@ -10,16 +10,19 @@ public class DishTo {
 
     private final int cost;
 
+    private final int restaurantId;
+
     private final LocalDateTime updateDate;
 
-    private final boolean requiresAnUpdate;
+    private final boolean error;
 
-    public DishTo(Integer id, String name, int cost, LocalDateTime updateDate, boolean requiresAnUpdate) {
+    public DishTo(Integer id, String name, int cost, int restaurantId, LocalDateTime updateDate, boolean error) {
         this.id = id;
         this.name = name;
         this.cost = cost;
+        this.restaurantId = restaurantId;
         this.updateDate = updateDate;
-        this.requiresAnUpdate = requiresAnUpdate;
+        this.error = error;
     }
 
     public Integer getId() {
@@ -34,12 +37,21 @@ public class DishTo {
         return cost;
     }
 
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
     public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public boolean isRequiresAnUpdate() {
-        return requiresAnUpdate;
+    public boolean isError() {
+        return error;
+    }
+
+    @Override
+    public int compareTo(DishTo o) {
+        return this.getRestaurantId() - o.getRestaurantId();
     }
 
     @Override
@@ -49,7 +61,7 @@ public class DishTo {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", updateDate=" + updateDate +
-                ", requiresAnUpdate=" + requiresAnUpdate +
+                ", requiresAnUpdate=" + error +
                 '}';
     }
 }

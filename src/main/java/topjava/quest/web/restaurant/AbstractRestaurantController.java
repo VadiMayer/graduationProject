@@ -10,7 +10,6 @@ import java.util.List;
 
 import static topjava.quest.util.ValidationUtil.assureIdConsistent;
 import static topjava.quest.util.ValidationUtil.checkNew;
-import static topjava.quest.model.Restaurant.getRestaurant_id;
 
 public abstract class AbstractRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -35,7 +34,7 @@ public abstract class AbstractRestaurantController {
     }
 
     public List<RestaurantTo> getAll() {
-        log.info("getAll for {}", getRestaurant_id());
+        log.info("getAll");
         return null;
     }
 }

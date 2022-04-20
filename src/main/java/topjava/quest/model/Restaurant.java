@@ -1,18 +1,24 @@
 package topjava.quest.model;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Restaurant extends AbstractNamedEntity {
 
-    private static final int START_SEQ = 100000;
-
-    private static final int restaurant_id = START_SEQ + 1;
+    private int restaurant_id;
 
     private int rating;
 
-    private ArrayList<Dish> menu;
+    private List<Dish> menu;
 
-    public static int getRestaurant_id() {
+    public Restaurant(Integer id, String name, int rating, int restaurant_id, List<Dish> dishes) {
+        super(id, name);
+        this.restaurant_id = restaurant_id;
+        this.rating = rating;
+        this.menu = dishes;
+    }
+
+    public int getRestaurant_id() {
         return restaurant_id;
     }
 
@@ -24,11 +30,12 @@ public class Restaurant extends AbstractNamedEntity {
         this.rating = rating;
     }
 
-    public ArrayList<Dish> getMenu() {
+    public List<Dish> getMenu() {
         return menu;
     }
 
-    public void setMenu(ArrayList<Dish> menu) {
+    public void setMenu(List<Dish> menu) {
         this.menu = menu;
     }
+
 }

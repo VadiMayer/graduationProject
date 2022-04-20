@@ -1,17 +1,19 @@
 package topjava.quest.model;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class Dish extends AbstractNamedEntity {
 
     private int cost;
 
+    private final int restaurantId;
+
     private LocalDateTime updateDate;
 
-    public Dish(Integer id, String name, int cost, LocalDateTime updateDate) {
+    public Dish(Integer id, String name, int cost, int restaurantId, LocalDateTime updateDate) {
         super(id, name);
         this.cost = cost;
+        this.restaurantId = restaurantId;
         this.updateDate = updateDate;
     }
 
@@ -21,6 +23,10 @@ public class Dish extends AbstractNamedEntity {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
     public LocalDateTime getUpdateDate() {

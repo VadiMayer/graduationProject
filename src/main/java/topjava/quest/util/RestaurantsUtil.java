@@ -5,63 +5,60 @@ import topjava.quest.model.Restaurant;
 import topjava.quest.to.DishTo;
 import topjava.quest.to.RestaurantTo;
 
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantsUtil {
 
-    public static void main(String[] args) {
-
-        RestaurantTo restDish = new RestaurantTo(1, "White", 200);
-
-        RestaurantTo.Menu menu = restDish.new Menu(new ArrayList<>());
-
-        LocalDateTime localDateTime1 = LocalDateTime.of(2022, 4, 14, 0, 0);
-        LocalDateTime localDateTime2 = LocalDateTime.of(2022, 4, 12, 23, 59);
-
-        List<Dish> dishList = List.of
-                (
-                        new Dish(1, "Первое", 200, LocalDateTime.now()),
-                        new Dish(2, "Второе", 400, LocalDateTime.now()),
-                        new Dish(3, "Третье", 100, localDateTime1),
-                        new Dish(4, "Четвертое", 50, localDateTime2)
-                );
-
-        List<Restaurant> restaurantList = List.of
-                (
-                        new Restaurant()
-                );
-
-        System.out.println(getTOList(restaurantList, convertListDishTo(dishList)));
-
+    static DishTo createDishTo(Dish dish, boolean notRequiresAnUpdate) {
+        return new DishTo(dish.getId(), dish.getName(), dish.getCost(), dish.getRestaurantId(), dish.getUpdateDate(), notRequiresAnUpdate);
     }
 
-
-    public static List<DishTo> convertListDishTo(List<Dish> dishes) {
-
-        List<Dish> currentDate = dishes
-                .stream()
-                .filter(date -> date.getUpdateDate().toLocalDate().equals(LocalDateTime.now().toLocalDate())).toList();
-
-        LocalDate onlyCurrentDate = currentDate.get(1).getUpdateDate().toLocalDate();
-
+    public static List<DishTo> convertDishListInDishToList(List<Dish> dishes) {
         return dishes.stream()
-                .map(dish -> createTo(dish, dish.getUpdateDate().toLocalDate().toString().equals(onlyCurrentDate.toString()))).toList();
+                .map(dish -> createDishTo(dish, !(dish.getUpdateDate().toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString())))).toList();
     }
 
-    private static DishTo createTo(Dish dish, boolean requiresAnUpdate) {
-        return new DishTo(dish.getId(), dish.getName(), dish.getCost(), dish.getUpdateDate(), requiresAnUpdate);
+    //Получить список всех ресторанов с едой для view.
+    public static List<RestaurantTo> getTORestsList(List<Restaurant> restaurants, List<DishTo> dishes) {
+
+        List<RestaurantTo> restaurantsTo = restaurants.stream()
+                .map(el -> new RestaurantTo(el.getId(), el.getName(), el.getRating(), el.getRestaurant_id())).toList();
+
+        List<RestaurantTo> restaurantToFalseAndTrue = new ArrayList<>();
+
+        //Если ресторан (true) то, он горит красным, если (false) то зеленым
+        for (RestaurantTo restaurant:restaurantsTo) {
+            List<DishTo> dishToRestaurantList = dishes.stream().filter(e -> e.getRestaurantId() == restaurant.getRestaurant_id()).toList();
+            for (DishTo dish:dishToRestaurantList) {
+                if (dish.isError()) {
+                    restaurant.setError(true);
+                    break;
+                }
+            }
+            restaurantToFalseAndTrue.add(restaurant);
+        }
+
+        return restaurantToFalseAndTrue;
     }
 
-    public static List<RestaurantTo> getTOList(List<Restaurant> restaurants, List<DishTo> dishes) {
-        return null;
+    //For ADMIN
+    public static List<RestaurantTo> getFilteredTOsForAdmin(List<Restaurant> restaurants, List<Dish> dishes, boolean filter) {
+        List<RestaurantTo> allRestaurantTrueAndFalse = getTORestsList(restaurants, convertDishListInDishToList(dishes));
+        // если (true) требует фильтрации, цвет красный, иначе зеленый
+        return allRestaurantTrueAndFalse.stream().filter(rest -> rest.isError() == filter).toList();
     }
 
-    public static List<RestaurantTo> filterByPredicate() {
-        return null;
+
+    //For USER
+    public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
+        return getTORestsList(rest,dishes).stream().filter(res -> res.getRating() >= start && res.getRating() <= end).toList();
     }
+
+
+//    public static <T extends Comparable<T>> boolean isBetweenTwoGaps(T value, T start, T end) {
+//        return (start == null || value.compareTo(start) >= 0) && (end == null || value.compareTo(end) < 0);
+//    }
+
 }
