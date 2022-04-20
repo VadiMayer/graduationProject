@@ -13,6 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <tomcat.version>9.0.59</tomcat.version>
+
         <!--Spring-->
         <spring-version>5.3.15</spring-version>
         <spring-data-jpa.version>2.6.2</spring-data-jpa.version>
@@ -21,10 +23,17 @@
         <logback.version>1.2.10</logback.version>
         <slf4j.version>1.7.35</slf4j.version>
 
+        <!--DB-->
+        <postgresql.version>42.3.3</postgresql.version>
+
         <!--Test-->
         <junit.version>4.13.2</junit.version>
         <assertj.version>3.22.0</assertj.version>
 
+        <!--Hibernate-->
+        <hibernate.version>5.6.5.Final</hibernate.version>
+        <hibernate-validator.version>6.2.2.Final</hibernate-validator.version>
+        <javax-el.version>3.0.1-b12</javax-el.version>
 
         <!--Web-->
         <jstl.version>1.2</jstl.version>
@@ -84,6 +93,25 @@
             <version>${spring-data-jpa.version}</version>
         </dependency>
 
+        <!--ORM-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${javax-el.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!--Web-->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -117,6 +145,31 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>postgres</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <version>${tomcat.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jul-to-slf4j</artifactId>
+                    <version>${slf4j.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
     </profiles>
 
     <dependencyManagement>
