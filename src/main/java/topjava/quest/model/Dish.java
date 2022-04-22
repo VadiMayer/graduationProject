@@ -1,19 +1,38 @@
 package topjava.quest.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "restaurant_dishes")
 public class Dish extends AbstractNamedEntity {
+    public static final String ALL_GET_ALL = "Dish.getAll";
+    public static final String DELETE = "Dish.delete";
+    public static final String GET_BETWEEN_DATE = "Dish.getBetween";
 
+    @Column(name = "cost", nullable = false)
+    @NotNull
     private int cost;
 
-    private final int restaurantId;
-
+    @Column(name = "update_date", nullable = false)
+    @NotNull
     private LocalDateTime updateDate;
 
-    public Dish(Integer id, String name, int cost, int restaurantId, LocalDateTime updateDate) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Restaurant restaurant;
+
+    public Dish() {
+    }
+
+    public Dish(Integer id, String name, int cost, int restaurant_id, LocalDateTime updateDate) {
         super(id, name);
         this.cost = cost;
-        this.restaurantId = restaurantId;
+        restaurant.setId(restaurant_id);
         this.updateDate = updateDate;
     }
 
@@ -26,7 +45,7 @@ public class Dish extends AbstractNamedEntity {
     }
 
     public int getRestaurantId() {
-        return restaurantId;
+        return restaurant.getRestaurant_id();
     }
 
     public LocalDateTime getUpdateDate() {

@@ -1,25 +1,44 @@
 package topjava.quest.model;
 
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = Restaurant.ALL_GET_ALL, query = "SELECT r FROM Restaurant r ORDER BY r.rating DESC"),
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
+        @NamedQuery(name = Restaurant.GET_BETWEEN_RATING,
+                query = "SELECT r FROM Restaurant r WHERE r.rating >= :startDate AND r.rating < :endDate ORDER BY r.rating DESC")
+        })
+@Entity
+@Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
+    public static final String ALL_GET_ALL = "Restaurant.getAll";
+    public static final String DELETE = "Restaurant.delete";
+    public static final String GET_BETWEEN_RATING = "Restaurant.getBetween";
 
-    private int restaurant_id;
-
+    @Column(name = "rating", nullable = false)
+    @NotNull
     private int rating;
 
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Dish> menu;
 
-    public Restaurant(Integer id, String name, int rating, int restaurant_id, List<Dish> dishes) {
+    public Restaurant() {
+    }
+
+    public Restaurant(Integer id, String name, int rating, List<Dish> dishes) {
         super(id, name);
-        this.restaurant_id = restaurant_id;
         this.rating = rating;
         this.menu = dishes;
     }
 
     public int getRestaurant_id() {
-        return restaurant_id;
+        return id;
     }
 
     public int getRating() {

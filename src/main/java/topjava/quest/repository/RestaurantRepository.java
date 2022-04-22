@@ -10,6 +10,8 @@ public interface RestaurantRepository {
 
     boolean delete(int id);
 
-    List<Restaurant> getAll();
+    List<Restaurant> getAllRestaurants();
+
+    List<Restaurant> getBetweenRating(int startRating, int endRating);
 
 }

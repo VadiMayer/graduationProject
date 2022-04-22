@@ -29,9 +29,9 @@ public class RestaurantsUtil {
         List<RestaurantTo> restaurantToFalseAndTrue = new ArrayList<>();
 
         //Если ресторан (true) то, он горит красным, если (false) то зеленым
-        for (RestaurantTo restaurant:restaurantsTo) {
+        for (RestaurantTo restaurant : restaurantsTo) {
             List<DishTo> dishToRestaurantList = dishes.stream().filter(e -> e.getRestaurantId() == restaurant.getRestaurant_id()).toList();
-            for (DishTo dish:dishToRestaurantList) {
+            for (DishTo dish : dishToRestaurantList) {
                 if (dish.isError()) {
                     restaurant.setError(true);
                     break;
@@ -53,7 +53,7 @@ public class RestaurantsUtil {
 
     //For USER
     public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
-        return getTORestsList(rest,dishes).stream().filter(res -> res.getRating() >= start && res.getRating() <= end).toList();
+        return getTORestsList(rest, dishes).stream().filter(res -> res.getRating() >= start && res.getRating() <= end).toList();
     }
 
 

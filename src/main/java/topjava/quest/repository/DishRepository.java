@@ -11,7 +11,7 @@ public interface DishRepository {
 
     boolean delete(int id);
 
-    List<Dish> getAll();
+    List<Dish> getAllDishes();
 
-    List<Dish> getRequiresAnUpdate(LocalDateTime localDateTime);
+    List<Dish> getRequiresAnUpdate(LocalDateTime start, LocalDateTime end);
 }

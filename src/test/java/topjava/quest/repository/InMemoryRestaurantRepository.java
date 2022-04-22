@@ -22,7 +22,13 @@ public class InMemoryRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
-    public List<Restaurant> getAll() {
+    public List<Restaurant> getAllRestaurants() {
         return null;
     }
+
+    @Override
+    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
+        return null;
+    }
+
 }

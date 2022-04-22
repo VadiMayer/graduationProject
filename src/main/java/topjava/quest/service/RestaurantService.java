@@ -1,16 +1,20 @@
 package topjava.quest.service;
 
+import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;
+import topjava.quest.repository.DishRepository;
 import topjava.quest.repository.RestaurantRepository;
 
 import java.util.List;
 
 public class RestaurantService {
 
-    private final RestaurantRepository repository;
+    private final DishRepository repositoryDish;
+    private final RestaurantRepository restaurantRepository;
 
-    public RestaurantService(RestaurantRepository repository) {
-        this.repository = repository;
+    public RestaurantService(DishRepository repositoryDish, RestaurantRepository restaurantRepository) {
+        this.repositoryDish = repositoryDish;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public Restaurant create(Restaurant restaurant) {
@@ -25,8 +29,12 @@ public class RestaurantService {
 
     }
 
-    public List<Restaurant> getAll() {
-        return null;
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantRepository.getAllRestaurants();
+    }
+
+    public List<Dish> getAllDishes() {
+        return repositoryDish.getAllDishes();
     }
 
 }

@@ -17,11 +17,11 @@ import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 public class RestaurantsUtilTest {
 
     public static final List<Dish> dishList = List.of(
-            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 1, LocalDateTime.of(2022, 4, 14, 0, 0)),
-            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 1, LocalDateTime.of(2022, 4, 14, 0, 0)),
-            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 1, LocalDateTime.of(2022, 4, 14, 0, 0)),
-            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 1, LocalDateTime.of(2022, 4, 14, 0, 0)),
-            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 1, LocalDateTime.of(2022, 4, 14, 0, 0))
+            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDateTime.of(2022, 4, 14, 0, 0)),
+            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDateTime.of(2022, 4, 14, 0, 0)),
+            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDateTime.of(2022, 4, 14, 0, 0)),
+            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDateTime.of(2022, 4, 14, 0, 0)),
+            new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDateTime.of(2022, 4, 14, 0, 0))
     );
 
     public static void main(String[] args) {

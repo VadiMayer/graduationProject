@@ -28,6 +28,14 @@ public class User extends AbstractNamedEntity{
         setRoleSet(roles);
     }
 
+    public Role getRole() {
+        Role role = roleSet.stream().filter(el -> el.equals(Role.ADMIN)).findFirst().get();
+        if (role == Role.ADMIN)
+            return role;
+        else
+            return Role.USER;
+    }
+
     public String getEmail() {
         return email;
     }
