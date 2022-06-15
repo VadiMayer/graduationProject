@@ -7,12 +7,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+//@NamedQueries({
+//        @NamedQuery(name = Dish.GET_ALL, query = "SELECT d FROM Dish d ORDER BY d.updateDate"),
+//        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id"),
+//        @NamedQuery(name = Dish.GET_BETWEEN_DATE,
+//                query = "SELECT d FROM Dish d WHERE d.updateDate >= :startDate AND d.updateDate < :endDate ORDER BY d.updateDate DESC ")
+//})
 @Entity
 @Table(name = "restaurant_dishes")
 public class Dish extends AbstractNamedEntity {
-    public static final String ALL_GET_ALL = "Dish.getAll";
-    public static final String DELETE = "Dish.delete";
-    public static final String GET_BETWEEN_DATE = "Dish.getBetween";
+//    public static final String GET_ALL = "Dish.getAll";
+//    public static final String DELETE = "Dish.delete";
+//    public static final String GET_BETWEEN_DATE = "Dish.getBetween";
 
     @Column(name = "cost", nullable = false)
     @NotNull
@@ -23,6 +29,7 @@ public class Dish extends AbstractNamedEntity {
     private LocalDateTime updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
@@ -54,5 +61,9 @@ public class Dish extends AbstractNamedEntity {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 }

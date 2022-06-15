@@ -11,15 +11,18 @@ import java.util.List;
 public class DataJpaRestaurantRepository implements RestaurantRepository {
 
     private final CrudRestaurantRepository crudRestaurantRepository;
-    private final CrudDishRepository crudDishRepository;
 
-    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, CrudDishRepository crudDishRepository) {
+    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
-        this.crudDishRepository = crudDishRepository;
     }
 
     @Override
-    @Transactional
+    public Restaurant get(int id) {
+        return crudRestaurantRepository.findById(id).orElse(null);
+    }
+
+    @Override
+//    @Transactional
     public Restaurant save(Restaurant restaurant) {
         if (!restaurant.isNew()) {
             return null;
@@ -37,8 +40,13 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
         return crudRestaurantRepository.getAll();
     }
 
+    @Override
     public List<Restaurant> getBetweenRating(int startRating, int endRating) {
         return crudRestaurantRepository.getBetweenRating(startRating, endRating);
     }
 
+    @Override
+    public Restaurant getWithDishes(int id) {
+        return crudRestaurantRepository.getWithDishes(id);
+    }
 }

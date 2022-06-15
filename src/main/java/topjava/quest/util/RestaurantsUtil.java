@@ -46,7 +46,7 @@ public class RestaurantsUtil {
     //For ADMIN
     public static List<RestaurantTo> getFilteredTOsForAdmin(List<Restaurant> restaurants, List<Dish> dishes, boolean filter) {
         List<RestaurantTo> allRestaurantTrueAndFalse = getTORestsList(restaurants, convertDishListInDishToList(dishes));
-        // если (true) требует фильтрации, цвет красный, иначе зеленый
+        // если (true) требует фильтрации - цвет красный, иначе зеленый
         return allRestaurantTrueAndFalse.stream().filter(rest -> rest.isError() == filter).toList();
     }
 

@@ -1,14 +1,35 @@
 package topjava.quest.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.*;
 
+@Entity
+@Table(name = "users")
 public class User extends AbstractNamedEntity{
 
+    @Column(name = "email", nullable = false, unique = true)
+    @NotBlank
+    @Email
     private String email;
 
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 128)
     private String password;
 
+    //Будем enum сохранять как стинги
+    @Enumerated(EnumType.STRING)
+    //user_roles связывается с user_id
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roleSet;
+
+    public User() {
+    }
 
     public User(User user) {
         this(user.id, user.name, user.email, user.password, user.roleSet);

@@ -4,7 +4,6 @@ import org.junit.Test;
 import topjava.quest.DishTestData;
 import topjava.quest.RestaurantTestData;
 import topjava.quest.model.Dish;
-//import topjava.quest.model.Menu;
 import topjava.quest.model.Restaurant;
 import topjava.quest.to.DishTo;
 import topjava.quest.to.RestaurantTo;

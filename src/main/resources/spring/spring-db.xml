@@ -11,20 +11,30 @@
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!--Инициализация базы данных-->
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
+    <!--Подключение аннотаций транзакций-->
     <tx:annotation-driven/>
 
+    <!--Создание бина-профиля базы данных postgres-->
     <beans profile="postgres">
+
+        <!--Для ведения журнала драйверов postgres.
+        Он использует java.util.logging и регистрируется через мост jul-to-slf4j-->
         <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
             <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
         </bean>
 
+        <!--С какого location будут считываться properties,
+        SYSTEM_PROPERTIES_MODE_OVERRIDE
+          Сначала проверьте системные свойства, прежде чем пробовать указанные свойства.-->
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 
+        <!--Откуда будут браться connections-->
         <bean id="dataSource"
               class="org.apache.tomcat.jdbc.pool.DataSource"
               p:driverClassName="org.postgresql.Driver"
@@ -50,7 +60,7 @@
             </property>
         </bean>
 
-        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+<!--        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>-->
     </beans>
 
     <beans profile="datajpa">

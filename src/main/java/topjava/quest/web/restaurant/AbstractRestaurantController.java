@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;
+import topjava.quest.service.DishService;
 import topjava.quest.service.RestaurantService;
 import topjava.quest.to.RestaurantTo;
 import topjava.quest.util.RestaurantsUtil;
@@ -22,10 +23,17 @@ public abstract class AbstractRestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private DishService dishService;
 
     // Получаем юзера, нужно узнать он Админ или нет,
     // если Админ у него есть возможность удалять или добавлять ресторан,
     // если Пользователь может голосовать!
+
+    public Restaurant get(int id) {
+        log.info("get restaurant {}", id);
+        return restaurantService.get(id);
+    }
 
     public Restaurant create(Restaurant restaurant) {
         int userId = SecurityUtil.authUserId();
@@ -51,7 +59,11 @@ public abstract class AbstractRestaurantController {
         int userId = SecurityUtil.authUserId();
         log.info("getAll");
         return RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(),
-                RestaurantsUtil.convertDishListInDishToList(restaurantService.getAllDishes()));
+                RestaurantsUtil.convertDishListInDishToList(dishService.getAll()));
+    }
+
+    public List<Restaurant> getBetweenRating() {
+        return null;
     }
 
     public List<RestaurantTo> getBetween(@Nullable LocalDate start, @Nullable LocalDate end, boolean restaurantNeedUpdate) {

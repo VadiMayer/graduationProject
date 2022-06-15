@@ -9,11 +9,11 @@ import topjava.quest.model.Restaurant;
 
 import java.util.List;
 
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Modifying
-    @Transactional
+//    @Modifying
+//    @Transactional
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
@@ -22,4 +22,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Query("SELECT r FROM Restaurant r WHERE r.rating >= :startRating AND r.rating <= :endRating")
     List<Restaurant> getBetweenRating(@Param("startRating") int startRating, @Param("endRating") int endRating);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
+    Restaurant getWithDishes(int id);
 }

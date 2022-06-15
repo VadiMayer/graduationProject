@@ -6,6 +6,19 @@
 
     <display-name>Graduation_Project</display-name>
 
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>postgres,datajpa</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring/spring-app.xml
+            classpath:spring/spring-db.xml
+        </param-value>
+    </context-param>
+
     <!--Spring MVC-->
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
@@ -20,6 +33,5 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
 
 </web-app>

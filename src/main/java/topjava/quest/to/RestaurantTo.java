@@ -1,6 +1,6 @@
 package topjava.quest.to;
 
-public class RestaurantTo implements Comparable<RestaurantTo> {
+public class RestaurantTo {
 
     private final Integer id;
 
@@ -26,12 +26,6 @@ public class RestaurantTo implements Comparable<RestaurantTo> {
 
     public int getRating() {
         return rating;
-
-    }
-
-    @Override
-    public int compareTo(RestaurantTo o) {
-        return this.getRestaurant_id() - o.getRestaurant_id();
     }
 
     public boolean isError() {
@@ -42,14 +36,12 @@ public class RestaurantTo implements Comparable<RestaurantTo> {
         this.error = error;
     }
 
-
     public RestaurantTo(Integer id, String nameRestaurant, int rating, int restaurant_id) {
         this.id = id;
         this.nameRestaurant = nameRestaurant;
         this.rating = rating;
         this.restaurant_id = restaurant_id;
     }
-
 
     @Override
     public String toString() {
