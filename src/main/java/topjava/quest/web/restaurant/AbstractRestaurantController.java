@@ -15,6 +15,7 @@ import topjava.quest.util.SecurityUtil;
 import java.time.LocalDate;
 import java.util.List;
 
+import static topjava.quest.util.RestaurantsUtil.convertDishListInDishToList;
 import static topjava.quest.util.ValidationUtil.assureIdConsistent;
 import static topjava.quest.util.ValidationUtil.checkNew;
 
@@ -56,16 +57,18 @@ public abstract class AbstractRestaurantController {
     }
 
     public List<RestaurantTo> getAll() {
-        int userId = SecurityUtil.authUserId();
         log.info("getAll");
         return RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(),
-                RestaurantsUtil.convertDishListInDishToList(dishService.getAll()));
+                convertDishListInDishToList(dishService.getAll()));
     }
 
-    public List<Restaurant> getBetweenRating() {
-        return null;
+    public List<RestaurantTo> getBetweenRating(int startRating, int endRating) {
+        List<RestaurantTo> toRestsList = RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(), convertDishListInDishToList(dishService.getAll()));
+        return toRestsList.stream()
+                .filter(rest -> rest.getRating() > startRating && rest.getRating() < endRating).toList();
     }
 
+    //Сортировка для админа по дате обновления еды
     public List<RestaurantTo> getBetween(@Nullable LocalDate start, @Nullable LocalDate end, boolean restaurantNeedUpdate) {
         int userId = SecurityUtil.authUserId();
         log.info("getBetween dates({} - {}) for user {}", start, end, userId);

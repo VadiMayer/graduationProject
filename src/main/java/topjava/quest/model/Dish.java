@@ -7,18 +7,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-//@NamedQueries({
-//        @NamedQuery(name = Dish.GET_ALL, query = "SELECT d FROM Dish d ORDER BY d.updateDate"),
-//        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id"),
-//        @NamedQuery(name = Dish.GET_BETWEEN_DATE,
-//                query = "SELECT d FROM Dish d WHERE d.updateDate >= :startDate AND d.updateDate < :endDate ORDER BY d.updateDate DESC ")
-//})
+@NamedQueries({
+        @NamedQuery(name = Dish.GET_ALL_FOR_RESTAURANT, query = "SELECT d FROM Dish d WHERE d.restaurant.id=:restaurant_id ORDER BY d.updateDate DESC"),
+        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id"),
+        @NamedQuery(name = Dish.GET_BETWEEN_DATE,
+                query = "SELECT d FROM Dish d WHERE d.updateDate >= :startDate AND d.updateDate < :endDate ORDER BY d.updateDate DESC ")
+})
 @Entity
-@Table(name = "restaurant_dishes")
+@Table(name = "restaurant_dishes", uniqueConstraints = @UniqueConstraint(columnNames = "restaurant_id", name = "dishes_unique_restaurant_idx"))
 public class Dish extends AbstractNamedEntity {
-//    public static final String GET_ALL = "Dish.getAll";
-//    public static final String DELETE = "Dish.delete";
-//    public static final String GET_BETWEEN_DATE = "Dish.getBetween";
+    public static final String GET_ALL_FOR_RESTAURANT = "Dish.getAllForRestaurant";
+    public static final String DELETE = "Dish.delete";
+    public static final String GET_BETWEEN_DATE = "Dish.getBetween";
 
     @Column(name = "cost", nullable = false)
     @NotNull
@@ -39,7 +39,6 @@ public class Dish extends AbstractNamedEntity {
     public Dish(Integer id, String name, int cost, int restaurant_id, LocalDateTime updateDate) {
         super(id, name);
         this.cost = cost;
-        restaurant.setId(restaurant_id);
         this.updateDate = updateDate;
     }
 
@@ -65,5 +64,9 @@ public class Dish extends AbstractNamedEntity {
 
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

@@ -6,40 +6,38 @@ import org.springframework.stereotype.Repository;
 import topjava.quest.model.Restaurant;
 import topjava.quest.repository.RestaurantRepository;
 
+import javax.annotation.PostConstruct;
+import java.util.Comparator;
 import java.util.List;
 
+import static topjava.quest.RestaurantTestData.rests;
+
 @Repository
-public class InMemoryRestaurantRepository implements RestaurantRepository {
+public class InMemoryRestaurantRepository extends InMemoryBaseRepository<Restaurant> implements RestaurantRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryRestaurantRepository.class);
 
-    @Override
-    public Restaurant get(int id) {
-        return null;
+    @PostConstruct
+    public void postConstruct() {
+        log.info("+++ PostConstruct");
     }
 
-    @Override
-    public Restaurant save(Restaurant restaurant) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return false;
+    public void init() {
+        map.clear();
+        for (Restaurant rest : rests) {
+            put(rest);
+        }
     }
 
     @Override
     public List<Restaurant> getAllRestaurants() {
-        return null;
+        return getCollection().stream()
+                .sorted(Comparator.comparing(Restaurant::getRating).thenComparing(Restaurant::getName))
+                .toList();
     }
 
     @Override
     public List<Restaurant> getBetweenRating(int startRating, int endRating) {
         return null;
-    }
-
-    @Override
-    public Restaurant getWithDishes(int id) {
-        return RestaurantRepository.super.getWithDishes(id);
     }
 
 }

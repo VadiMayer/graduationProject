@@ -9,18 +9,18 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-//@NamedQueries({
-//        @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r FROM Restaurant r ORDER BY r.rating DESC"),
-//        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
-//        @NamedQuery(name = Restaurant.GET_BETWEEN_RATING,
-//                query = "SELECT r FROM Restaurant r WHERE r.rating >= :startRating AND r.rating < :endRating ORDER BY r.rating DESC")
-//        })
+@NamedQueries({
+        @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r FROM Restaurant r ORDER BY r.rating DESC"),
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
+        @NamedQuery(name = Restaurant.GET_BETWEEN_RATING,
+                query = "SELECT r FROM Restaurant r WHERE r.rating >= :startRating AND r.rating < :endRating ORDER BY r.rating DESC")
+})
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
-//    public static final String GET_ALL = "Restaurant.getAll";
-//    public static final String DELETE = "Restaurant.delete";
-//    public static final String GET_BETWEEN_RATING = "Restaurant.getBetween";
+    public static final String GET_ALL = "Restaurant.getAll";
+    public static final String DELETE = "Restaurant.delete";
+    public static final String GET_BETWEEN_RATING = "Restaurant.getBetween";
 
     @Column(name = "rating", nullable = false)
     @NotNull
@@ -33,7 +33,7 @@ public class Restaurant extends AbstractNamedEntity {
     }
 
     public Restaurant(String name) {
-        this(0, name,0, new ArrayList<>());
+        this(0, name, 0, new ArrayList<>());
     }
 
     public Restaurant(Integer id, String name, int rating, List<Dish> dishes) {

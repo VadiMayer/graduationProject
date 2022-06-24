@@ -44,23 +44,29 @@
     </beans>
 
     <beans profile="datajpa">
+        <!--EntityManagerFactory служит для создания EntityManager, чтобы ими обращаться в BD.
+        Local EntityManagerFactory - это значит что участвует одна база данных, без распределенных JTA транзакций, которые используют больше одной базы данных-->
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:dataSource-ref="dataSource"
               p:packagesToScan="topjava.quest.model">
             <property name="jpaPropertyMap">
                 <map>
+                    <!--Включить форматирование SQL, записанного в консоль-->
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="${hibernate.jpa_proxy_compliance}"/>
+                    <!--Добавление комментариев к сгенерированному SQL-->
+                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+                           value="${hibernate.use_sql_comments}"/>
+                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}"
+                           value="${hibernate.jpa_proxy_compliance}"/>
                 </map>
             </property>
 
             <property name="jpaVendorAdapter">
-                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="true"/>
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${jpa.showSql}"/>
             </property>
         </bean>
 
-<!--        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>-->
+        <!--        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>-->
     </beans>
 
     <beans profile="datajpa">

@@ -19,7 +19,8 @@ public class DishService {
     }
 
     public Dish create(Dish dish, int restaurantId) {
-        return ValidationUtil.checkNotFoundWithId(dish, restaurantId);
+        ValidationUtil.checkNotFoundWithId(dish, restaurantId);
+        return repository.save(dish, restaurantId);
     }
 
     public void update(Dish dish, int restaurantId) {
