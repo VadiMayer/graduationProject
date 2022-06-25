@@ -13,7 +13,7 @@ public class ActiveDbProfileResolver extends DefaultActiveProfilesResolver {
     public @NonNull
     String[] resolve(@NonNull Class<?> testClass) {
         List<String> profiles = new ArrayList<>(Arrays.asList(super.resolve(testClass)));
-        profiles.add("postgres");
+        profiles.add("hsqldb");
         return profiles.toArray(String[]::new);
     }
 }
