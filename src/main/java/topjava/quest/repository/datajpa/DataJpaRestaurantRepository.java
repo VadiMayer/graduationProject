@@ -1,5 +1,6 @@
 package topjava.quest.repository.datajpa;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.model.Restaurant;
@@ -10,10 +11,14 @@ import java.util.List;
 @Repository
 public class DataJpaRestaurantRepository implements RestaurantRepository {
 
-    private final CrudRestaurantRepository crudRestaurantRepository;
+    private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");
 
-    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
+    private final CrudRestaurantRepository crudRestaurantRepository;
+    private final CrudDishRepository crudDishRepository;
+
+    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, CrudDishRepository crudDishRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
+        this.crudDishRepository = crudDishRepository;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
 
     @Override
     public List<Restaurant> getAllRestaurants() {
-        return crudRestaurantRepository.getAll();
+        return crudRestaurantRepository.findAll(SORT_NAME);
     }
 
     @Override

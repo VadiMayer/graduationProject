@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--Инициализация базы данных-->
+    <!--Для автоматической инициализации базы данных-->
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
@@ -42,7 +42,7 @@
             <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
         </bean>
 
-        <!--С какого location будут считываться properties,
+        <!--С какого location будут считываться properties, Spring распарсивает проперти файл и ключи можем напрямую использовать в бинах
         SYSTEM_PROPERTIES_MODE_OVERRIDE - cначала проверьте системные свойства, прежде чем пробовать указанные свойства.-->
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 
@@ -78,7 +78,8 @@
             </property>
         </bean>
 
-        <!--        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>-->
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+              p:entityManagerFactory-ref="entityManagerFactory"/>
     </beans>
 
     <beans profile="datajpa">

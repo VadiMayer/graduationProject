@@ -35,8 +35,9 @@ public class RestaurantUIController extends AbstractRestaurantController {
 
     @GetMapping("/filter")
     public List<RestaurantTo> getBetweenRating(@RequestParam @Nullable int startRating,
-                                               @RequestParam @Nullable int endRating) {
-        return super.getBetweenRating(startRating, endRating);
+                                               @RequestParam @Nullable int endRating,
+                                               @RequestParam @Nullable int restaurant_id) {
+        return super.getBetweenRating(startRating, endRating, restaurant_id);
     }
 
     private int getRestaurantId(HttpServletRequest request) {

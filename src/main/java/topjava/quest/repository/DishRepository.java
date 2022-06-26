@@ -11,7 +11,7 @@ public interface DishRepository {
 
     boolean delete(int id, int restaurantId);
 
-    List<Dish> getAllDishes();
+    List<Dish> getAllDishesForRestaurant(int restaurant_id);
 
     List<Dish> getRequiresAnUpdate(LocalDateTime start, LocalDateTime end);
 }

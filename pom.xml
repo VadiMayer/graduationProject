@@ -118,7 +118,6 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
@@ -208,6 +207,9 @@
         </profile>
     </profiles>
 
+    <!--dependencyManagement необходим для того, чтобы зависимости, которые идут в семействе например spring-data-jpa,
+    который сам обновлялся очень давно, а эти зависимости были нужной версии. Если какие-то зависимости не будут подключены, ничего страшного,
+    они реально не подключаются, если мы отдельно не добавим их в pom-->
     <dependencyManagement>
         <dependencies>
             <dependency>
