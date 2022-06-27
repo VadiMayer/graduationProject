@@ -5,7 +5,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-//import topjava.quest.ActiveDbProfileResolver;
+import topjava.quest.ActiveDbProfileResolver;
 import topjava.quest.util.ValidationUtil;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 //ActiveDbProfileResolver в результате выбор базы данных в зависимости от наличия драйвера в classpath-e и профиль для выбора технологий, будут складываться.
 //Каждый профиль будет работать с общим профилем для выбора базы данных и со своим профилем для выбора репозитория.
 //(clean необходимо делать при смене базы данных или если у нас какие-то классы удаляются)
-//@ActiveProfiles("postgres")
+@ActiveProfiles("postgres")
 
 //@Sql используется для аннотирования тестового класса или метода тестирования для настройки сценариев SQL,
 // которые будут запускаться в данной базе данных во время интеграционных тестов.

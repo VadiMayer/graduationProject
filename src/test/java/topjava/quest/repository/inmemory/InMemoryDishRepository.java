@@ -47,7 +47,7 @@ public class InMemoryDishRepository implements DishRepository {
     }
 
     @Override
-    public List<Dish> getAllDishes() {
+    public List<Dish> getAllDishesForRestaurant(int restaurant_id) {
         return null;
     }
 

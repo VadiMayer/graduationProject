@@ -33,14 +33,6 @@ public class Dish extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    //Для тестов
-    private int restaurant_id;
-
-    //Для тестов
-    public int getRestaurant_idTest() {
-        return restaurant_id;
-    }
-
     public Dish() {
     }
 
@@ -48,7 +40,6 @@ public class Dish extends AbstractNamedEntity {
         super(id, name);
         this.cost = cost;
         this.updateDate = updateDate;
-        this.restaurant_id = restaurant_id;
     }
 
     public int getCost() {

@@ -25,7 +25,6 @@ public class RestaurantsUtilTest {
 
     public static void main(String[] args) {
 
-        System.out.println(getTORestsList(RestaurantTestData.rests, convertDishListInDishToList(DishTestData.dishList)));
 
         System.out.println(getFilteredTOsForAdmin(RestaurantTestData.rests, DishTestData.dishList, false));
 

@@ -24,8 +24,7 @@ public class DishTestData {
                     new Dish(START_SEQ + 15, "Суп \"Аладин\"", 720, 100007, LocalDateTime.now()),
                     new Dish(START_SEQ + 16, "Второе \"Плов\"", 910, 100008, LocalDateTime.now()),
                     new Dish(START_SEQ + 17, "Суп \"Анастасия\"", 847, 100009, LocalDateTime.of(2022, 4, 10, 10, 0)),
-                    new Dish(START_SEQ + 18, "Фрукты \"Питахайя\"", 260, 100009, LocalDateTime.now()),
-                    new Dish(START_SEQ + 20, "Фрукты \"Банан\"", 260, 100005, LocalDateTime.now())
+                    new Dish(START_SEQ + 18, "Фрукты \"Питахайя\"", 260, 100009, LocalDateTime.now())
 
             );
 

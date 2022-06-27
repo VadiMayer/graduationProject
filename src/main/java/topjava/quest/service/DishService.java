@@ -31,8 +31,8 @@ public class DishService {
         ValidationUtil.checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
 
-    public List<Dish> getAll() {
-        return repository.getAllDishes();
+    public List<Dish> getAllForRestaurant(int restaurant_id) {
+        return repository.getAllDishesForRestaurant(restaurant_id);
     }
 
     public void getRequiresAnUpdate(LocalDateTime localDateTime) {
