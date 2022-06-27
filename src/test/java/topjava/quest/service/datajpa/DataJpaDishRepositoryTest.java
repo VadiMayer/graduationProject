@@ -14,7 +14,7 @@ public class DataJpaDishRepositoryTest extends AbstractServiceTest {
     DishService dishService;
 
     @Test
-    public void getAllForRestaurant(int restaurant_id) {
-        DISH_MATCHER.assertMatch(dishService.getAllForRestaurant(restaurant_id), dishList);
+    public void getAllForRestaurant() {
+        DISH_MATCHER.assertMatch(dishService.getAll(), dishList);
     }
 }

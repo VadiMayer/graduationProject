@@ -1,5 +1,9 @@
 package topjava.quest.to;
 
+import topjava.quest.model.Dish;
+
+import java.util.List;
+
 public class RestaurantTo {
 
     private final Integer id;
@@ -9,6 +13,8 @@ public class RestaurantTo {
     private final int rating;
 
     private final int restaurant_id;
+
+    private List<DishTo> menu;
 
     private boolean error;
 
@@ -36,11 +42,20 @@ public class RestaurantTo {
         this.error = error;
     }
 
-    public RestaurantTo(Integer id, String nameRestaurant, int rating, int restaurant_id) {
+    public List<DishTo> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<DishTo> menu) {
+        this.menu = menu;
+    }
+
+    public RestaurantTo(Integer id, String nameRestaurant, int rating, int restaurant_id, List<DishTo> menu) {
         this.id = id;
         this.nameRestaurant = nameRestaurant;
         this.rating = rating;
         this.restaurant_id = restaurant_id;
+        this.menu = menu;
     }
 
     @Override
