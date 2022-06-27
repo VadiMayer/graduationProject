@@ -20,21 +20,21 @@
     <!--Подключение аннотаций транзакций-->
     <tx:annotation-driven/>
 
-    <beans profile="hsqldb">
+<!--    <beans profile="hsqldb">-->
 
-        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+<!--        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>-->
 
-        <bean id="dataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-              p:driverClassName="org.hsqldb.jdbcDriver"
-              p:url="${database.url}"
-              p:username="${database.username}"
-              p:password="${database.password}"
-        />
-    </beans>
+<!--        <bean id="dataSource"-->
+<!--              class="org.springframework.jdbc.datasource.DriverManagerDataSource"-->
+<!--              p:driverClassName="org.hsqldb.jdbcDriver"-->
+<!--              p:url="${database.url}"-->
+<!--              p:username="${database.username}"-->
+<!--              p:password="${database.password}"-->
+<!--        />-->
+<!--    </beans>-->
 
     <!--Создание бина-профиля базы данных postgres-->
-    <beans profile="postgres">
+<!--    <beans profile="postgres">-->
 
         <!--Для ведения журнала драйверов postgres.
         Он использует java.util.logging и регистрируется через мост jul-to-slf4j-->
@@ -53,9 +53,9 @@
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
-    </beans>
+<!--    </beans>-->
 
-    <beans profile="datajpa">
+<!--    <beans profile="datajpa">-->
         <!--EntityManagerFactory служит для создания EntityManager, чтобы ими обращаться в BD.
         Local EntityManagerFactory - это значит что участвует одна база данных, без распределенных JTA транзакций, которые используют больше одной базы данных-->
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
@@ -80,10 +80,10 @@
 
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
               p:entityManagerFactory-ref="entityManagerFactory"/>
-    </beans>
+<!--    </beans>-->
 
-    <beans profile="datajpa">
+<!--    <beans profile="datajpa">-->
         <context:component-scan base-package="topjava.quest.repository.datajpa"/>
         <jpa:repositories base-package="topjava.quest.repository.datajpa"/>
-    </beans>
+<!--    </beans>-->
 </beans>

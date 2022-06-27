@@ -2,6 +2,7 @@ package topjava.quest.web.restaurant;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 import topjava.quest.model.Restaurant;
 import topjava.quest.to.RestaurantTo;
 
@@ -9,15 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
+@ApiIgnore
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantUIController extends AbstractRestaurantController {
 
-//    @Override
-//    @GetMapping
-//    public List<RestaurantTo> getAll() {
-//        return super.getAll();
-//    }
+    @Override
+    @GetMapping
+    public List<RestaurantTo> getAll() {
+        return super.getAll();
+    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
@@ -35,9 +37,8 @@ public class RestaurantUIController extends AbstractRestaurantController {
 
     @GetMapping("/filter")
     public List<RestaurantTo> getBetweenRating(@RequestParam @Nullable int startRating,
-                                               @RequestParam @Nullable int endRating,
-                                               @RequestParam @Nullable int restaurant_id) {
-        return super.getBetweenRating(startRating, endRating, restaurant_id);
+                                               @RequestParam @Nullable int endRating) {
+        return super.getBetweenRating(startRating, endRating);
     }
 
     private int getRestaurantId(HttpServletRequest request) {

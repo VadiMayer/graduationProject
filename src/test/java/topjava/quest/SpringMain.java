@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SpringMain {
     public static void main(String[] args) {
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
-            appCtx.getEnvironment().setActiveProfiles("postgres", "datajpa");
+//            appCtx.getEnvironment().setActiveProfiles("postgres", "datajpa");
             appCtx.load("spring/inmemory.xml");
             appCtx.refresh();
 

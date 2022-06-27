@@ -56,14 +56,14 @@ public abstract class AbstractRestaurantController {
         restaurantService.delete(id);
     }
 
-    public List<RestaurantTo> getAll(int restaurant_id) {
+    public List<RestaurantTo> getAll() {
         log.info("getAll");
         return RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(),
-                convertDishListInDishToList(dishService.getAllForRestaurant(restaurant_id)));
+                convertDishListInDishToList(dishService.getAll()));
     }
 
-    public List<RestaurantTo> getBetweenRating(int startRating, int endRating, int restaurant_id) {
-        List<RestaurantTo> toRestsList = RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(), convertDishListInDishToList(dishService.getAllForRestaurant(restaurant_id)));
+    public List<RestaurantTo> getBetweenRating(int startRating, int endRating) {
+        List<RestaurantTo> toRestsList = RestaurantsUtil.getTORestsList(restaurantService.getAllRestaurants(), convertDishListInDishToList(dishService.getAll()));
         return toRestsList.stream()
                 .filter(rest -> rest.getRating() > startRating && rest.getRating() < endRating).toList();
     }
