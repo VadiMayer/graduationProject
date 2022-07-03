@@ -1,7 +1,6 @@
 package topjava.quest.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import topjava.quest.model.Dish;
 import topjava.quest.repository.DishRepository;
 import topjava.quest.util.ValidationUtil;
@@ -27,8 +26,8 @@ public class DishService {
         ValidationUtil.checkNotFoundWithId(repository.save(dish, restaurantId), dish.getId());
     }
 
-    public void delete(int id, int restaurantId) {
-        ValidationUtil.checkNotFoundWithId(repository.delete(id, restaurantId), id);
+    public void delete(int id) {
+        ValidationUtil.checkNotFoundWithId(repository.delete(id), id);
     }
 
     public List<Dish> getAll() {

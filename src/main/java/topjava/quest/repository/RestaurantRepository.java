@@ -1,6 +1,5 @@
 package topjava.quest.repository;
 
-import org.springframework.stereotype.Repository;
 import topjava.quest.model.Restaurant;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface RestaurantRepository {
 
     List<Restaurant> getAllRestaurants();
 
-    List<Restaurant> getBetweenRating(int startRating, int endRating);
+//    List<Restaurant> getBetweenRating(int startRating, int endRating);
 
     default Restaurant getWithDishes(int id) {
         throw new UnsupportedOperationException();

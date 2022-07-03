@@ -14,11 +14,9 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");
 
     private final CrudRestaurantRepository crudRestaurantRepository;
-    private final CrudDishRepository crudDishRepository;
 
-    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, CrudDishRepository crudDishRepository) {
+    public DataJpaRestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
-        this.crudDishRepository = crudDishRepository;
     }
 
     @Override
@@ -27,7 +25,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         if (!restaurant.isNew()) {
             return null;
@@ -45,10 +43,10 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
         return crudRestaurantRepository.findAll(SORT_NAME);
     }
 
-    @Override
-    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
-        return crudRestaurantRepository.getBetweenRating(startRating, endRating);
-    }
+//    @Override
+//    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
+//        return crudRestaurantRepository.getBetweenRating(startRating, endRating);
+//    }
 
     @Override
     public Restaurant getWithDishes(int id) {

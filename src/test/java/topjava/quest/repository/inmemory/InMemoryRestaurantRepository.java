@@ -31,13 +31,13 @@ public class InMemoryRestaurantRepository extends InMemoryBaseRepository<Restaur
     @Override
     public List<Restaurant> getAllRestaurants() {
         return getCollection().stream()
-                .sorted(Comparator.comparing(Restaurant::getRating).thenComparing(Restaurant::getName))
+//                .sorted(Comparator.comparing(Restaurant::getRating).thenComparing(Restaurant::getName))
                 .toList();
     }
 
-    @Override
-    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
-        return null;
-    }
+//    @Override
+//    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
+//        return null;
+//    }
 
 }

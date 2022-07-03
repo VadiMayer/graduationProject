@@ -17,14 +17,14 @@ VALUES ('USER', 100000),
        ('USER', 100001),
        ('USER', 100002);
 
-INSERT INTO restaurants (name, rating)
-VALUES ('White rabbit', 201),
-       ('Sixty', 153),
-       ('Русский паб', 102),
-       ('АндерСон', 126),
-       ('Обломов', 145);
+INSERT INTO restaurants (name)
+VALUES ('White rabbit'),
+       ('Sixty'),
+       ('Русский паб'),
+       ('АндерСон'),
+       ('Обломов');
 
-INSERT INTO restaurant_dishes (name, cost, restaurant_id, update_date)
+INSERT INTO restaurant_dishes (description, cost, restaurant_id, update_date)
 VALUES ('Суп "Жабо"', 1400, 100005, now()),
        ('Фрикадельки "Мисьён"', 1850, 100005, '2022-04-10 10:00:00'),
        ('Коктейль "Агара"', 760, 100005, now()),

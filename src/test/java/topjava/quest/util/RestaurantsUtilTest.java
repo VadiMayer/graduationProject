@@ -29,29 +29,29 @@ public class RestaurantsUtilTest {
 
         System.out.println(getFilteredTOsForAdmin(RestaurantTestData.rests, DishTestData.dishList, false));
 
-        System.out.println(getFilteredRatingRestForUser(RestaurantTestData.rests, convertDishListInDishToList(DishTestData.dishList), 100, 145));
+//        System.out.println(getFilteredRatingRestForUser(RestaurantTestData.rests, convertDishListInDishToList(DishTestData.dishList), 100, 145));
 
     }
 
     @Test
     public static List<RestaurantTo> getTORestsList(List<Restaurant> restaurants, List<DishTo> dishes) {
-        return RestaurantsUtil.getTORestsList(restaurants, dishes);
+        return RestaurantsAndDishesUtil.getTORestsList(restaurants, dishes);
     }
 
 
     @Test
     public static List<RestaurantTo> getFilteredTOsForAdmin(List<Restaurant> restaurants, List<Dish> dishes, boolean filter) {
-        return RestaurantsUtil.getFilteredTOsForAdmin(restaurants, dishes, filter);
+        return RestaurantsAndDishesUtil.getFilteredTOsForAdmin(restaurants, dishes, filter);
     }
 
     @Test
     public static List<DishTo> convertDishListInDishToList(List<Dish> dishes) {
-        return RestaurantsUtil.convertDishListInDishToList(dishes);
+        return RestaurantsAndDishesUtil.convertDishListInDishToList(dishes);
     }
 
-    @Test
-    public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
-        return RestaurantsUtil.getFilteredRatingRestForUser(rest, dishes, start, end);
-    }
+//    @Test
+//    public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
+//        return RestaurantsAndDishesUtil.getFilteredRatingRestForUser(rest, dishes, start, end);
+//    }
 
 }

@@ -42,7 +42,7 @@ public class InMemoryDishRepository implements DishRepository {
     }
 
     @Override
-    public boolean delete(int id, int restaurantId) {
+    public boolean delete(int id) {
         return false;
     }
 

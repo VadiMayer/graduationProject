@@ -26,6 +26,9 @@
         <!--DB-->
         <postgresql.version>42.3.3</postgresql.version>
 
+        <!--JSON-->
+        <jackson.version>2.13.2</jackson.version>
+
         <!--Test-->
         <junit.version>4.13.2</junit.version>
         <assertj.version>3.22.0</assertj.version>
@@ -171,6 +174,23 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+
+        <!--JSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-hibernate5</artifactId>-->
+<!--            <version>${jackson.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--            <version>${jackson.version}</version>-->
+<!--        </dependency>-->
 
         <!--Test-->
         <dependency>

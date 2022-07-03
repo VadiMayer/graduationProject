@@ -18,17 +18,21 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Modifying
     @Transactional
+    //@Query используются только при DATAJPA реализации ???
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r ORDER BY r.rating DESC")
-    List<Restaurant> getAll();
+//    //@Query используются только при DATAJPA реализации ???
+//    @Query("SELECT r FROM Restaurant r ORDER BY r.name DESC")
+//    List<Restaurant> getAll();
 
-    @Query("SELECT r FROM Restaurant r WHERE r.rating >= :startRating AND r.rating <= :endRating")
-    List<Restaurant> getBetweenRating(@Param("startRating") int startRating, @Param("endRating") int endRating);
+    //@Query используются только при DATAJPA реализации ???
+//    @Query("SELECT r FROM Restaurant r WHERE r.rating >= :startRating AND r.rating <= :endRating")
+//    List<Restaurant> getBetweenRating(@Param("startRating") int startRating, @Param("endRating") int endRating);
 
     //Проверить что это за аннотация + что нужно написать dishes или dish
-    @EntityGraph(attributePaths = {"restaurant_dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"menu"})
+    //@Query используются только при DATAJPA реализации ???
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithDishes(int id);
 }

@@ -8,7 +8,7 @@ public class SpringMain {
     public static void main(String[] args) {
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
 //            appCtx.getEnvironment().setActiveProfiles("postgres", "datajpa");
-            appCtx.load("spring/inmemory.xml");
+            appCtx.load("spring/spring-db.xml", "spring/spring-app.xml");
             appCtx.refresh();
 
             System.out.println("Bean definition names " + Arrays.toString(appCtx.getBeanDefinitionNames()));

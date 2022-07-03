@@ -23,11 +23,11 @@ public class RestaurantTestData {
 
     public static final List<Restaurant> rests = List.of
             (
-                    new Restaurant(START_SEQ + 5, "White rabbit", 201, new ArrayList<>()),
-                    new Restaurant(START_SEQ + 6, "Sixty", 153, new ArrayList<>()),
-                    new Restaurant(START_SEQ + 7, "Русский паб", 102, new ArrayList<>()),
-                    new Restaurant(START_SEQ + 8, "АндерСон", 126, new ArrayList<>()),
-                    new Restaurant(START_SEQ + 9, "Обломов", 145, new ArrayList<>())
+                    new Restaurant(START_SEQ + 5, "White rabbit", new ArrayList<>()),
+                    new Restaurant(START_SEQ + 6, "Sixty", new ArrayList<>()),
+                    new Restaurant(START_SEQ + 7, "Русский паб", new ArrayList<>()),
+                    new Restaurant(START_SEQ + 8, "АндерСон", new ArrayList<>()),
+                    new Restaurant(START_SEQ + 9, "Обломов", new ArrayList<>())
             );
 
     static {

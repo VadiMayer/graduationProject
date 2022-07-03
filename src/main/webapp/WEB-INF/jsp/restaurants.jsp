@@ -4,10 +4,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!--Сделать как Meals, не как Users-->
-
 <html>
+<head>
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 <section>
+    <h3><a href="index.jsp">Home</a></h3>
+    <hr/>
     <h2>Restaurant</h2>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>

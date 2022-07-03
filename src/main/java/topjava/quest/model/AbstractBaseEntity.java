@@ -1,15 +1,23 @@
 package topjava.quest.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.util.Assert;
+import topjava.quest.HasId;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 //Аннотация для формирования наследования, вытянуть из базы через select не получится, напрямую таблицы нет, как у Entity
 @MappedSuperclass
-//Аннотация говорит, что отражение будет делаться напрямую через поля, не гетт и сетт
+//Аннотация говорит, что отражение будет делаться напрямую через поля, а не геттеры и сеттеры
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity {
+//JsonAutoDetect позволяет Jackson сериализовать по умолчанию поля, а не геттеры и сеттеры, как он это делает изначально
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
+        getterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+        setterVisibility = JsonAutoDetect.Visibility.NONE)
+public abstract class AbstractBaseEntity implements HasId {
 
     public static final int START_SEQ = 100000;
 
@@ -23,6 +31,7 @@ public abstract class AbstractBaseEntity {
     //Аннотация @GeneratedValue атрибутом strategy определяет стратегию генерации уникального идентификатора
     // с использованием SEQUENCE. Атрибут generator связывает данную аннотацию с аннотацией @SequenceGenerator.
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @ApiModelProperty(hidden = true)
     protected Integer id;
 
     public AbstractBaseEntity() {
@@ -32,10 +41,12 @@ public abstract class AbstractBaseEntity {
         this.id = id;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -43,10 +54,6 @@ public abstract class AbstractBaseEntity {
     public int haveId() {
         Assert.notNull(id, "Entity must have id");
         return id;
-    }
-
-    public boolean isNew() {
-        return this.id == null;
     }
 
     @Override

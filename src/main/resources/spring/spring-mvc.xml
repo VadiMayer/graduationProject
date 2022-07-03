@@ -16,9 +16,12 @@
     
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
+    <!--Эта строчка нужна для Swagger, без нее он не запускается-->
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
     <!--Swagger это фреймворк для автоматического создания REST-API документации по аннотациям контроллеров Spring MVC-->
     <bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"/>
-    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources"/>
+    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
 
     <!--Бин отвечающий за префикс и суффикс отображаемой jsp страницы-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"

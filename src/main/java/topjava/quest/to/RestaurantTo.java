@@ -1,5 +1,6 @@
 package topjava.quest.to;
 
+import io.swagger.annotations.ApiModelProperty;
 import topjava.quest.model.Dish;
 
 import java.util.List;
@@ -9,8 +10,6 @@ public class RestaurantTo {
     private final Integer id;
 
     private final String nameRestaurant;
-
-    private final int rating;
 
     private final int restaurant_id;
 
@@ -30,10 +29,6 @@ public class RestaurantTo {
         return restaurant_id;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
     public boolean isError() {
         return error;
     }
@@ -50,10 +45,9 @@ public class RestaurantTo {
         this.menu = menu;
     }
 
-    public RestaurantTo(Integer id, String nameRestaurant, int rating, int restaurant_id, List<DishTo> menu) {
+    public RestaurantTo(Integer id, String nameRestaurant, int restaurant_id, List<DishTo> menu) {
         this.id = id;
         this.nameRestaurant = nameRestaurant;
-        this.rating = rating;
         this.restaurant_id = restaurant_id;
         this.menu = menu;
     }
@@ -63,7 +57,6 @@ public class RestaurantTo {
         return "RestaurantTo{" +
                 "id=" + id +
                 ", nameRestaurant='" + nameRestaurant + '\'' +
-                ", rating=" + rating +
                 ", restaurant_id=" + restaurant_id +
                 ", notRequiresAnUpdate=" + error +
                 '}';

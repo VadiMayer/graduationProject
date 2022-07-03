@@ -12,10 +12,14 @@ import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
-public class RestaurantsUtil {
+public class RestaurantsAndDishesUtil {
+
+    static Dish createDishFromDishTo(DishTo dishTo) {
+        return new Dish();
+    }
 
     static DishTo createDishTo(Dish dish, boolean notRequiresAnUpdate) {
-        return new DishTo(dish.getId(), dish.getName(), dish.getCost(), dish.getRestaurant_idTest(), dish.getUpdateDate(), notRequiresAnUpdate);
+        return new DishTo(dish.getId(), dish.getDescription(), dish.getCost(), dish.getRestaurant().getRestaurant_id(), dish.getUpdateDate(), notRequiresAnUpdate);
     }
 
     public static List<DishTo> convertDishListInDishToList(List<Dish> dishes) {
@@ -59,7 +63,7 @@ public class RestaurantsUtil {
         }
 
         List<RestaurantTo> restaurantsTo = restaurants.stream()
-                .map(el -> new RestaurantTo(el.getId(), el.getName(), el.getRating(), el.getRestaurant_id(), dishToMap.get(el.getRestaurant_id())))
+                .map(el -> new RestaurantTo(el.getId(), el.getName(), el.getRestaurant_id(), dishToMap.get(el.getRestaurant_id())))
                 .toList();
 
         List<RestaurantTo> restaurantToFalseAndTrue = new ArrayList<>();
@@ -87,10 +91,10 @@ public class RestaurantsUtil {
     }
 
 
-    //For USER
-    public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
-        return getTORestsList(rest, dishes).stream().filter(res -> res.getRating() >= start && res.getRating() <= end).toList();
-    }
+//    //For USER
+//    public static List<RestaurantTo> getFilteredRatingRestForUser(List<Restaurant> rest, List<DishTo> dishes, int start, int end) {
+//        return getTORestsList(rest, dishes).stream().filter(res -> res.getRating() >= start && res.getRating() <= end).toList();
+//    }
 
 
 //    public static <T extends Comparable<T>> boolean isBetweenTwoGaps(T value, T start, T end) {

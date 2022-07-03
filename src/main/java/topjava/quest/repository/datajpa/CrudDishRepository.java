@@ -19,9 +19,11 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     // операции, которые мы сами переопределяем и которые что-то модифицируют должны помечаться аннотацией @Modifying
     @Modifying
     @Transactional
-    @Query("DELETE FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId")
-    int delete(@Param("id") int id, @Param("restaurantId") int restaurantId);
+    //@Query используются только при DATAJPA реализации ???
+    @Query("DELETE FROM Dish d WHERE d.id=:id")
+    int delete(@Param("id") int id);
 
+    //@Query используются только при DATAJPA реализации ???
     @Query("SELECT d FROM Dish d ORDER BY d.updateDate DESC")
     List<Dish> getAll();
 }

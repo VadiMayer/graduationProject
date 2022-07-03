@@ -1,22 +1,35 @@
 package topjava.quest.to;
 
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class DishTo implements Comparable<DishTo> {
+public class DishTo extends BaseTo implements Comparable<DishTo> {
 
-    private final Integer id;
-
+    @NotBlank
+    @Size(min = 6, max = 120)
+    @ApiModelProperty(example = "Example food")
     private final String name;
 
-    private final int cost;
+    @NotNull
+    @Range(min = 2, max = 7000)
+    @ApiModelProperty(example = "500", position = 1)
+    private final Integer cost;
 
-    private final int restaurant_Id;
+    @NotNull
+    @ApiModelProperty(example = "100006", position = 2)
+    private final Integer restaurant_Id;
 
     private final LocalDateTime updateDate;
 
+    @ApiModelProperty(example = "false")
     private final boolean error;
 
-    public DishTo(Integer id, String name, int cost, int restaurant_Id, LocalDateTime updateDate, boolean error) {
+    public DishTo(Integer id, String name, Integer cost, int restaurant_Id, LocalDateTime updateDate, boolean error) {
         this.id = id;
         this.name = name;
         this.cost = cost;
