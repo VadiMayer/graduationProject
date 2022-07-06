@@ -4,6 +4,9 @@ import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import topjava.quest.model.AbstractBaseEntity;
 import topjava.quest.util.exception.NotFoundException;
+import topjava.quest.util.exception.TimeIsUpException;
+
+import java.time.LocalTime;
 
 public class ValidationUtil {
 
@@ -33,6 +36,14 @@ public class ValidationUtil {
     public static void throwException(boolean found, String msg) {
         if (!found) {
             throw new NotFoundException("Not found entity with " + msg);
+        }
+    }
+
+    public static void checkingTheTime(LocalTime rightNow){
+        if (rightNow.isAfter(LocalTime.of(11, 0))) {
+            throw new TimeIsUpException("You can't vote anymore today. " +
+                    "After 11 am, come back tomorrow. " +
+                    "You must to do it until 11.");
         }
     }
 

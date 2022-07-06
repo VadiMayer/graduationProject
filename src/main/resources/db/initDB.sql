@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS restaurant_dishes;
 DROP TABLE IF EXISTS restaurants;
@@ -13,8 +14,8 @@ CREATE TABLE users
     email    VARCHAR NOT NULL,
     password VARCHAR NOT NULL
 );
-
 CREATE UNIQUE INDEX restaurants_unique_email ON users (email);
+
 
 CREATE TABLE user_roles
 (
@@ -24,13 +25,14 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE restaurants
 (
-    id     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name   VARCHAR NOT NULL
+    id   INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name VARCHAR NOT NULL
 );
-
 CREATE UNIQUE INDEX restaurants_unique_name ON restaurants (name);
+
 
 CREATE TABLE restaurant_dishes
 (
@@ -41,5 +43,16 @@ CREATE TABLE restaurant_dishes
     update_date   TIMESTAMP           DEFAULT now() NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX restaurant_dishes_unique_id_rest ON restaurant_dishes (restaurant_id, description);
 
--- CREATE UNIQUE INDEX restaurant_dishes_unique_id_rest ON restaurant_dishes (restaurant_id);
+
+CREATE TABLE votes
+(
+    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    user_id       INT                               NULL,
+    restaurant_id INT                               NULL,
+    dateVote      TIMESTAMP           DEFAULT now() NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX votes_unique_user_id ON votes (user_id);
