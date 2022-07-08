@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 //@NamedQueries нужны только при JPA реализации ???
 //@NamedQueries({
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 //                query = "SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.updateDate >= :startDate AND d.updateDate < :endDate ORDER BY d.updateDate DESC ")
 //})
 @Entity
-@Table(name = "restaurant_dishes", uniqueConstraints = @UniqueConstraint(columnNames = "restaurant_id", name = "restaurant_dishes_unique_id_rest"))
+@Table(name = "restaurant_dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "restaurant_id", name = "restaurant_dishes_unique_id_rest")})
 public class Dish extends AbstractBaseEntity {
 //    public static final String GET_ALL = "Dish.getAll";
 //    public static final String DELETE = "Dish.delete";
@@ -41,9 +40,10 @@ public class Dish extends AbstractBaseEntity {
 
     @Column(name = "update_date", nullable = false)
     @NotNull
-    @DateTimeFormat
-    private LocalDateTime updateDate;
+    private LocalDate updateDate;
 
+    //Если ставить Lazy и у Restaurant lazy на menu вылетает исключение:
+    //org.hibernate.LazyInitializationException: could not initialize proxy [topjava.quest.model.Restaurant#100005] - no Session
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -63,7 +63,7 @@ public class Dish extends AbstractBaseEntity {
     public Dish() {
     }
 
-    public Dish(Integer id, String description, int cost, LocalDateTime updateDate, Restaurant restaurant) {
+    public Dish(Integer id, String description, int cost, LocalDate updateDate, Restaurant restaurant) {
         super(id);
         this.description = description;
         this.cost = cost;
@@ -71,7 +71,7 @@ public class Dish extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public Dish(Integer id, String description, int cost, int restaurant_idTest, LocalDateTime updateDate) {
+    public Dish(Integer id, String description, int cost, int restaurant_idTest, LocalDate updateDate) {
         super(id);
         this.description = description;
         this.cost = cost;
@@ -86,11 +86,11 @@ public class Dish extends AbstractBaseEntity {
         this.cost = cost;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public LocalDate getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
     }
 

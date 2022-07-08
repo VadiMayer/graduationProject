@@ -2,11 +2,13 @@ package topjava.quest.to;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 public class DishTo extends BaseTo implements Comparable<DishTo> {
 
@@ -24,12 +26,14 @@ public class DishTo extends BaseTo implements Comparable<DishTo> {
     @ApiModelProperty(example = "100006", position = 2)
     private final Integer restaurant_Id;
 
-    private final LocalDateTime updateDate;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private final LocalDate updateDate;
 
     @ApiModelProperty(example = "false")
     private final boolean error;
 
-    public DishTo(Integer id, String name, Integer cost, int restaurant_Id, LocalDateTime updateDate, boolean error) {
+    public DishTo(Integer id, String name, Integer cost, int restaurant_Id, LocalDate updateDate, boolean error) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -54,7 +58,7 @@ public class DishTo extends BaseTo implements Comparable<DishTo> {
         return restaurant_Id;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public LocalDate getUpdateDate() {
         return updateDate;
     }
 

@@ -5,7 +5,9 @@ import topjava.quest.model.Vote;
 import topjava.quest.repository.VoteRepository;
 import topjava.quest.util.ValidationUtil;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -33,7 +35,11 @@ public class VoteService {
         ValidationUtil.checkNotFoundWithId(voteRepository.delete(id, userId), id);
     }
 
-    public Vote getWithRestaurant(int id, int restaurantId) {
-        return ValidationUtil.checkNotFoundWithId(voteRepository.getWithRestaurant(id, restaurantId), id);
+    public List<Vote> getAllForRestaurant(int restaurantId) {
+        return ValidationUtil.checkNotFoundWithId(voteRepository.getAllForRestaurant(restaurantId), restaurantId);
+    }
+
+    public Vote getForToday(int authUserId) {
+        return voteRepository.getForToday(authUserId, LocalDate.now());
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import topjava.quest.model.Vote;
 import topjava.quest.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,11 @@ public class DataJpaVoteRepository implements VoteRepository {
         return crudVoteRepository.findById(id)
                 .filter(vote -> vote.getUser().getId() == userId)
                 .orElse(null);
+    }
+
+    @Override
+    public Vote getForToday(int authUserId, LocalDate date) {
+        return crudVoteRepository.getForToday(authUserId, date);
     }
 
     @Override
@@ -44,7 +50,7 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public Vote getWithRestaurant(int id, int restaurantId) {
-        return VoteRepository.super.getWithRestaurant(id, restaurantId);
+    public List<Vote> getAllForRestaurant(int restaurantId) {
+        return crudVoteRepository.getAllForRestaurant(restaurantId);
     }
 }

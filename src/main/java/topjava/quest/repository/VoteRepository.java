@@ -2,11 +2,15 @@ package topjava.quest.repository;
 
 import topjava.quest.model.Vote;
 
+import java.time.LocalDate;
+
 import java.util.List;
 
 public interface VoteRepository {
 
     Vote get(int id, int userId);
+
+    Vote getForToday(int authUserId, LocalDate date);
 
     Vote save(Vote vote);
 
@@ -14,7 +18,7 @@ public interface VoteRepository {
 
     List<Vote> getAll();
 
-    default Vote getWithRestaurant(int id, int restaurantId) {
+    default List<Vote> getAllForRestaurant(int restaurantId) {
         throw new UnsupportedOperationException();
     }
 }

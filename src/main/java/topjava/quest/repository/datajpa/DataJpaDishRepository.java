@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import topjava.quest.model.Dish;
 import topjava.quest.repository.DishRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -31,11 +31,12 @@ public class DataJpaDishRepository implements DishRepository {
 
     @Override
     public List<Dish> getAllDishes() {
+        LocalDate localDate = crudRepository.getAll().get(0).getUpdateDate();
         return crudRepository.getAll();
     }
 
     @Override
-    public List<Dish> getRequiresAnUpdate(LocalDateTime start, LocalDateTime end) {
+    public List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end) {
         return null;
     }
 }

@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"}, name = "votes_unique_user_id")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "dateVote"}, name = "votes_unique_date_vote_id")})
 public class Vote extends AbstractBaseEntity {
 
     @NotNull
@@ -25,10 +26,18 @@ public class Vote extends AbstractBaseEntity {
 
     @NotNull
     @Column(name = "dateVote", nullable = false)
-    private LocalDateTime dateVote;
+    private LocalDate dateVote;
 
     public Vote() {
     }
+
+    public Vote(Integer id, User user, Restaurant restaurant, LocalDate dateVote) {
+        super(id);
+        this.user = user;
+        this.restaurant = restaurant;
+        this.dateVote = dateVote;
+    }
+
 
     public User getUser() {
         return user;
@@ -46,11 +55,11 @@ public class Vote extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public LocalDateTime getDateVote() {
+    public LocalDate getDateVote() {
         return dateVote;
     }
 
-    public void setDateVote(LocalDateTime dateVote) {
+    public void setDateVote(LocalDate dateVote) {
         this.dateVote = dateVote;
     }
 }

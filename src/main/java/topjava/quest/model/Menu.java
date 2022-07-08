@@ -2,7 +2,7 @@
 //
 //import topjava.quest.to.DishTo;
 //
-//import java.time.LocalDateTime;
+
 //import java.util.List;
 //
 //public class Menu {
@@ -27,7 +27,7 @@
 //        return restaurantId;
 //    }
 //
-//    public void setUpdateDate(LocalDateTime updateDate) {
+//    public void setUpdateDate(LocalDate updateDate) {
 //        this.updateDate = updateDate;
 //    }
 //
@@ -35,7 +35,7 @@
 //        this.notRequiresAnUpdate = notRequiresAnUpdate;
 //    }
 //
-//    public LocalDateTime getUpdateDate() {
+//    public LocalDate getUpdateDate() {
 //        return updateDate;
 //    }
 //
@@ -43,7 +43,7 @@
 //        return notRequiresAnUpdate;
 //    }
 //
-//    public Menu(List<DishTo> dishTos, int restaurantId, LocalDateTime updateDate, boolean notRequiresAnUpdate) {
+//    public Menu(List<DishTo> dishTos, int restaurantId, LocalDate updateDate, boolean notRequiresAnUpdate) {
 //        this.dishTos = dishTos;
 //        this.restaurantId = restaurantId;
 //        this.updateDate = updateDate;

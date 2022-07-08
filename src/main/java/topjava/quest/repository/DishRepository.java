@@ -2,7 +2,8 @@ package topjava.quest.repository;
 
 import topjava.quest.model.Dish;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.List;
 
 public interface DishRepository {
@@ -13,5 +14,5 @@ public interface DishRepository {
 
     List<Dish> getAllDishes();
 
-    List<Dish> getRequiresAnUpdate(LocalDateTime start, LocalDateTime end);
+    List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end);
 }

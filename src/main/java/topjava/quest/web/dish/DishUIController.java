@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.quest.model.Dish;
@@ -36,10 +35,13 @@ public class DishUIController {
         this.dishService = dishService;
     }
 
+    // в другом проекте в постмане выдается 200, у меня выдается 500, загрузка из базы идет, проблема с контроллром?
     @GetMapping
-    public List<DishTo> getAll() {
+    public List<Dish> getAll() {
         log.info("getAll");
-        return convertDishListInDishToList(dishService.getAll());
+//        List<Dish> dishList = dishService.getAll();
+//        List<DishTo> dishToList = convertDishListInDishToList(dishService.getAll());
+        return dishService.getAll();
     }
 
     @ApiOperation(value = "Create a dish for the restaurant")

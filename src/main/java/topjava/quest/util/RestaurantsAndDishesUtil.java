@@ -2,10 +2,12 @@ package topjava.quest.util;
 
 import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;
+import topjava.quest.model.Vote;
 import topjava.quest.to.DishTo;
 import topjava.quest.to.RestaurantTo;
 
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.Comparator.comparingInt;
@@ -18,15 +20,21 @@ public class RestaurantsAndDishesUtil {
         return new Dish();
     }
 
-    static DishTo createDishTo(Dish dish, boolean notRequiresAnUpdate) {
-        return new DishTo(dish.getId(), dish.getDescription(), dish.getCost(), dish.getRestaurant().getRestaurant_id(), dish.getUpdateDate(), notRequiresAnUpdate);
+    static DishTo createDishTo(Dish dish, boolean requiresAnUpdate) {
+        return new DishTo(dish.getId(), dish.getDescription(), dish.getCost(), dish.getRestaurant().getRestaurant_id(), dish.getUpdateDate(), requiresAnUpdate);
     }
 
     public static List<DishTo> convertDishListInDishToList(List<Dish> dishes) {
         return dishes.stream()
-                .map(dish -> createDishTo(dish, !(dish.getUpdateDate().toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString()))))
+                .map(dish -> createDishTo(dish, !(dish.getUpdateDate().toString().equals(LocalDate.now().toString()))))
                 .sorted().toList();
     }
+
+//    public static List<RestaurantTo> convertRestaurantListInRestaurantToList(List<Restaurant> restaurants) {
+//        return List<RestaurantTo> restaurantsTo = restaurants.stream()
+//                .map(el -> new RestaurantTo(el.getId(), el.getName(), el.getRestaurant_id(), dishToMap.get(el.getRestaurant_id())))
+//                .toList();
+//    }
 
     //Получить список всех ресторанов с едой для view.
     public static List<RestaurantTo> getTORestsList(List<Restaurant> restaurants, List<DishTo> dishes) {
@@ -81,6 +89,10 @@ public class RestaurantsAndDishesUtil {
         }
 
         return restaurantToFalseAndTrue;
+    }
+
+    public static Vote getVote(Vote vote) {
+        return new Vote(vote.getId(), vote.getUser(), vote.getRestaurant(), vote.getDateVote());
     }
 
     //For ADMIN

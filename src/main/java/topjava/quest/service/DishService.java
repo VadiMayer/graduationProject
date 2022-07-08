@@ -5,7 +5,7 @@ import topjava.quest.model.Dish;
 import topjava.quest.repository.DishRepository;
 import topjava.quest.util.ValidationUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -34,7 +34,7 @@ public class DishService {
         return repository.getAllDishes();
     }
 
-    public void getRequiresAnUpdate(LocalDateTime localDateTime) {
+    public void getRequiresAnUpdate(LocalDate localDate) {
 
     }
 }

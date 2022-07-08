@@ -40,7 +40,7 @@ public class ValidationUtil {
     }
 
     public static void checkingTheTime(LocalTime rightNow){
-        if (rightNow.isAfter(LocalTime.of(11, 0))) {
+        if (rightNow.isAfter(LocalTime.of(11,0))) {
             throw new TimeIsUpException("You can't vote anymore today. " +
                     "After 11 am, come back tomorrow. " +
                     "You must to do it until 11.");

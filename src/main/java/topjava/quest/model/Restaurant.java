@@ -30,7 +30,7 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("updateDate DESC")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private List<Dish> menu;
 

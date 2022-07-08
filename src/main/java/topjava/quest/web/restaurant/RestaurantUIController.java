@@ -41,10 +41,14 @@ public class RestaurantUIController {
     }
 
     @GetMapping
-    public List<RestaurantTo> getAll() {
+    public List<Restaurant> getAllWithMenu() {
         log.info("getAll");
-        return RestaurantsAndDishesUtil.getTORestsList(restaurantService.getAllRestaurants(),
-                convertDishListInDishToList(dishService.getAll()));
+        //при аннотации @JsonIgnore на поле private List<Dish> menu выводит все рестораны.
+        List<Restaurant> allRestaurantsList = restaurantService.getAllRestaurants();
+        List<Dish> allDishesList = dishService.getAll();
+        List<RestaurantTo> allRestaurantsWithMenu = RestaurantsAndDishesUtil.getTORestsList(allRestaurantsList,
+                convertDishListInDishToList(allDishesList));
+        return allRestaurantsList;
     }
 
     @DeleteMapping("/{id}")

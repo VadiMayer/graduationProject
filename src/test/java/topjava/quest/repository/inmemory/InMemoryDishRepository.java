@@ -9,7 +9,7 @@ import topjava.quest.model.Dish;
 import topjava.quest.repository.DishRepository;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,7 +52,7 @@ public class InMemoryDishRepository implements DishRepository {
     }
 
     @Override
-    public List<Dish> getRequiresAnUpdate(LocalDateTime start, LocalDateTime end) {
+    public List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end) {
         return null;
     }
 }

@@ -1,18 +1,25 @@
 package topjava.quest.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import topjava.quest.model.Dish;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.beans.ConstructorProperties;
 import java.util.List;
 
-public class RestaurantTo {
+public class RestaurantTo extends BaseTo {
 
-    private final Integer id;
-
+    @NotBlank
+    @Size(min = 2, max = 100)
     private final String nameRestaurant;
 
+    @JsonIgnore
     private final int restaurant_id;
 
+    @NotNull
     private List<DishTo> menu;
 
     private boolean error;
@@ -46,7 +53,7 @@ public class RestaurantTo {
     }
 
     public RestaurantTo(Integer id, String nameRestaurant, int restaurant_id, List<DishTo> menu) {
-        this.id = id;
+        super(id);
         this.nameRestaurant = nameRestaurant;
         this.restaurant_id = restaurant_id;
         this.menu = menu;
@@ -58,7 +65,7 @@ public class RestaurantTo {
                 "id=" + id +
                 ", nameRestaurant='" + nameRestaurant + '\'' +
                 ", restaurant_id=" + restaurant_id +
-                ", notRequiresAnUpdate=" + error +
+                ", requiresAnUpdate=" + error +
                 '}';
     }
 }
