@@ -1,7 +1,9 @@
 package topjava.quest.web.vote;
 
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import topjava.quest.model.Restaurant;
 import topjava.quest.model.User;
@@ -18,12 +20,12 @@ import java.util.List;
 import static topjava.quest.util.RestaurantsAndDishesUtil.getVote;
 
 @RestController
-@RequestMapping(value = VoteUIController.REST_URL)
+@RequestMapping(value = VoteUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteUIController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    static final String REST_URL = "/users/votes";
+    public static final String REST_URL = "/users/votes";
 
     private final VoteService voteService;
     private final RestaurantService restaurantService;
@@ -36,7 +38,7 @@ public class VoteUIController {
     }
 
     @GetMapping("/restaurants/{id}")
-    public List<Vote> getWithRestaurant(@PathVariable(name = "id") int restaurantsId) {
+    public List<Vote> getWithRestaurant(@ApiParam(name = "id", value = "Restaurants_Id", example = "100005") @PathVariable(name = "id") int restaurantsId) {
         log.info("get votes for restaurant with id {}", restaurantsId);
         List<Vote> votesList = voteService.getAllForRestaurant(restaurantsId);
         return votesList;

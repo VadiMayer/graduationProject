@@ -1,5 +1,6 @@
 package topjava.quest.web.restaurant;
 
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import topjava.quest.to.RestaurantTo;
 import topjava.quest.util.RestaurantsAndDishesUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -41,18 +43,15 @@ public class RestaurantUIController {
     }
 
     @GetMapping
-    public List<Restaurant> getAllWithMenu() {
+    public List<RestaurantTo> getAllWithMenu() {
         log.info("getAll");
         //при аннотации @JsonIgnore на поле private List<Dish> menu выводит все рестораны.
-        List<Restaurant> allRestaurantsList = restaurantService.getAllRestaurants();
-        List<Dish> allDishesList = dishService.getAll();
-        List<RestaurantTo> allRestaurantsWithMenu = RestaurantsAndDishesUtil.getTORestsList(allRestaurantsList,
-                convertDishListInDishToList(allDishesList));
-        return allRestaurantsList;
+        return RestaurantsAndDishesUtil.getTORestsList(restaurantService.getAllRestaurants(),
+                convertDishListInDishToList(dishService.getAll()));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
+    public void delete(@ApiParam(value = "Restaurant_Id", example = "100006") @PathVariable int id) {
         //        int userId = SecurityUtil.authUserId();
         log.info("delete restaurant {}", id);
         restaurantService.delete(id);
@@ -66,11 +65,12 @@ public class RestaurantUIController {
         return restaurantService.create(restaurant);
     }
 
-    @PutMapping
-    public void updateRestaurant(@RequestBody Restaurant restaurant) {
+    @PutMapping(value = "/{id}")
+    public void updateRestaurant(@PathVariable(name = "id") @ApiParam(value = "Restaurant_Id", example = "100006") int id,
+                                 @RequestBody @Valid Restaurant restaurant) {
 //        int userId = SecurityUtil.authUserId();
         log.info("update {}", restaurant);
-        assureIdConsistent(restaurant, restaurant.getId());
+        assureIdConsistent(restaurant, id);
         restaurantService.update(restaurant);
     }
 

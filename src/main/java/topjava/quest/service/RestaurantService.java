@@ -1,6 +1,7 @@
 package topjava.quest.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import topjava.quest.model.Restaurant;
 import topjava.quest.repository.RestaurantRepository;
@@ -26,8 +27,12 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+    //Без аннотации транзакции не сохранялось имя ресторана!!!
+    //Не проходил update даже если был restaurantRepository.save(restaurantCheck);
+    @Transactional
     public void update(Restaurant restaurant) {
-        ValidationUtil.checkNotFoundWithId(restaurantRepository.save(restaurant), restaurant.getId());
+        Restaurant restaurantCheck = ValidationUtil.checkNotFoundWithId(restaurantRepository.get(restaurant.getId()), restaurant.getId());
+        restaurantCheck.setName(restaurant.getName());
     }
 
     public void delete(int id) {

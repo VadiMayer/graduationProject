@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "dateVote"}, name = "votes_unique_date_vote_id")})
 public class Vote extends AbstractBaseEntity {
@@ -61,5 +60,14 @@ public class Vote extends AbstractBaseEntity {
 
     public void setDateVote(LocalDate dateVote) {
         this.dateVote = dateVote;
+    }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", restaurant=" + restaurant +
+                ", dateVote=" + dateVote +
+                '}';
     }
 }

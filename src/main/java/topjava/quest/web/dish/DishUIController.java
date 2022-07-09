@@ -37,11 +37,9 @@ public class DishUIController {
 
     // в другом проекте в постмане выдается 200, у меня выдается 500, загрузка из базы идет, проблема с контроллром?
     @GetMapping
-    public List<Dish> getAll() {
+    public List<DishTo> getAll() {
         log.info("getAll");
-//        List<Dish> dishList = dishService.getAll();
-//        List<DishTo> dishToList = convertDishListInDishToList(dishService.getAll());
-        return dishService.getAll();
+        return convertDishListInDishToList(dishService.getAll());
     }
 
     @ApiOperation(value = "Create a dish for the restaurant")
@@ -60,7 +58,7 @@ public class DishUIController {
         return ResponseEntity.created(uriOfNewResource).body(dish);
     }
 
-    @PostMapping("{id}")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable(name = "id") int id) {
         log.info("delete dish {}", id);
         dishService.delete(id);

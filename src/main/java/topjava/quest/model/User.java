@@ -80,4 +80,15 @@ public class User extends AbstractNamedEntity{
     public void setRoleSet(Collection<Role> roleSet) {
         this.roleSet = roleSet.isEmpty() ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roleSet);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roleSet=" + roleSet +
+                '}';
+    }
 }

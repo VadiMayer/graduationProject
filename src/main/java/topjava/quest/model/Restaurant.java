@@ -30,7 +30,6 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("updateDate DESC")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private List<Dish> menu;
 
@@ -58,4 +57,11 @@ public class Restaurant extends AbstractNamedEntity {
         this.menu = menu;
     }
 
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
