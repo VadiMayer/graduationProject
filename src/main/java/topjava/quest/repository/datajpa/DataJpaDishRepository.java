@@ -31,7 +31,6 @@ public class DataJpaDishRepository implements DishRepository {
 
     @Override
     public List<Dish> getAllDishes() {
-        LocalDate localDate = crudRepository.getAll().get(0).getUpdateDate();
         return crudRepository.getAll();
     }
 

@@ -12,11 +12,6 @@ import java.util.Objects;
 @MappedSuperclass
 //Аннотация говорит, что отражение будет делаться напрямую через поля, а не геттеры и сеттеры
 @Access(AccessType.FIELD)
-//JsonAutoDetect позволяет Jackson сериализовать по умолчанию поля, а не геттеры и сеттеры, как он это делает изначально
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE)
 public abstract class AbstractBaseEntity implements HasId {
 
     public static final int START_SEQ = 100000;

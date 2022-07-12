@@ -4,6 +4,7 @@ package topjava.quest.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,6 +31,7 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("updateDate DESC")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @BatchSize(size = 200)
     @ApiModelProperty(hidden = true)
     private List<Dish> menu;
 

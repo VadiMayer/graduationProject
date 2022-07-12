@@ -3,9 +3,12 @@ package topjava.quest.web.restaurant;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;
 import topjava.quest.service.DishService;
@@ -15,6 +18,7 @@ import topjava.quest.util.RestaurantsAndDishesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -24,9 +28,11 @@ import static topjava.quest.util.ValidationUtil.assureIdConsistent;
 import static topjava.quest.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = "/users/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantUIController {
     private final Logger log = LoggerFactory.getLogger(getClass());
+
+    public static final String REST_URL = "/users/restaurants";
 
     private final RestaurantService restaurantService;
 
@@ -51,6 +57,7 @@ public class RestaurantUIController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@ApiParam(value = "Restaurant_Id", example = "100006") @PathVariable int id) {
         //        int userId = SecurityUtil.authUserId();
         log.info("delete restaurant {}", id);
@@ -58,14 +65,21 @@ public class RestaurantUIController {
     }
 
     @PostMapping
-    public Restaurant createNewRestaurant(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody @Valid Restaurant restaurant) {
 //        int userId = SecurityUtil.authUserId();
         log.info("create {}", restaurant);
         checkNew(restaurant);
-        return restaurantService.create(restaurant);
+        Restaurant newRestaurant = restaurantService.create(restaurant);
+
+        URI uriNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(newRestaurant.getId()).toUri();
+
+        return ResponseEntity.created(uriNewResource).body(newRestaurant);
     }
 
     @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateRestaurant(@PathVariable(name = "id") @ApiParam(value = "Restaurant_Id", example = "100006") int id,
                                  @RequestBody @Valid Restaurant restaurant) {
 //        int userId = SecurityUtil.authUserId();

@@ -1,5 +1,8 @@
 package topjava.quest.model;
 
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,11 +16,13 @@ public class User extends AbstractNamedEntity{
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank
     @Email
+    @ApiModelProperty(example = "newmame@gmail.com")
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 128)
+    @ApiModelProperty(example = "newmame123")
     private String password;
 
     //Будем enum сохранять как стинги
@@ -26,6 +31,8 @@ public class User extends AbstractNamedEntity{
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    @ApiModelProperty(hidden = true)
     private Set<Role> roleSet;
 
     public User() {

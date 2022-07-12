@@ -1,5 +1,6 @@
 package topjava.quest.repository.datajpa;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,7 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     int delete(@Param("id") int id);
 
     //@Query используются только при DATAJPA реализации ???
+    @EntityGraph(value = Dish.graph)
     @Query("SELECT d FROM Dish d ORDER BY d.updateDate DESC")
     List<Dish> getAll();
 }

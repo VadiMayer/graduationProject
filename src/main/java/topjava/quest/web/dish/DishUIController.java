@@ -3,6 +3,7 @@ package topjava.quest.web.dish;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import topjava.quest.util.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import static topjava.quest.util.RestaurantsAndDishesUtil.convertDishListInDishToList;
@@ -35,7 +37,6 @@ public class DishUIController {
         this.dishService = dishService;
     }
 
-    // в другом проекте в постмане выдается 200, у меня выдается 500, загрузка из базы идет, проблема с контроллром?
     @GetMapping
     public List<DishTo> getAll() {
         log.info("getAll");
@@ -43,22 +44,25 @@ public class DishUIController {
     }
 
     @ApiOperation(value = "Create a dish for the restaurant")
-    @PostMapping(value = "restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Dish> createDishForRestaurant(@RequestBody @Valid DishTo dishTo) {
         log.info("create {} for restaurant {}", dishTo, dishTo.getRestaurantId());
 
-        Dish dish = new Dish(dishTo.getId(), dishTo.getName(), dishTo.getCost(), dishTo.getUpdateDate(), restaurantService.get(dishTo.getRestaurantId()));
+        Dish dish = new Dish(dishTo.getId(), dishTo.getName(), dishTo.getCost(), LocalDate.now(), restaurantService.get(dishTo.getRestaurantId()));
         ValidationUtil.checkNew(dish);
-        dishService.create(dish, dishTo.getRestaurantId());
+        Dish create = dishService.create(dish, dishTo.getRestaurantId());
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(dish.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(dish);
+        return ResponseEntity.created(uriOfNewResource).body(create);
     }
 
     @DeleteMapping("{id}")
+    //Если не отдавать статус, то в браузере в фаерфокс в инструментах отладки будет ошибка, в хроме все нормально, поэтом лучше отдавать.
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(name = "id") int id) {
         log.info("delete dish {}", id);
         dishService.delete(id);

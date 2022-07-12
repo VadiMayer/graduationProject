@@ -1,19 +1,22 @@
 package topjava.quest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
+@NamedEntityGraph(name = Dish.graph, attributeNodes = {@NamedAttributeNode("restaurant")})
 @Table(name = "restaurant_dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "restaurant_id", name = "restaurant_dishes_unique_id_rest")})
 public class Dish extends AbstractBaseEntity {
 
+    public static final String graph = "Dish.withRestaurants";
     //nullable в базе данных генерится колонка в таблице в которой мы не сможем создать null
     @Column(name = "description", nullable = false)
     //NotBlank говорит о том, что до того, как мы будем сохранять в базу данных проверяем поле,

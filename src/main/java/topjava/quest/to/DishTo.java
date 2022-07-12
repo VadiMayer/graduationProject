@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.beans.ConstructorProperties;
 import java.time.LocalDate;
 
 
@@ -19,28 +20,30 @@ public class DishTo extends BaseTo implements Comparable<DishTo> {
 
     @NotNull
     @Range(min = 2, max = 7000)
-    @ApiModelProperty(example = "500", position = 1)
+    @ApiModelProperty(example = "500")
     private final Integer cost;
 
     @NotNull
-    @ApiModelProperty(example = "100006", position = 2)
+    @ApiModelProperty(example = "100006")
     private final Integer restaurant_Id;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @ApiModelProperty(hidden = true)
     private final LocalDate updateDate;
 
-    @ApiModelProperty(example = "false")
+    @ApiModelProperty(hidden = true)
     private final boolean error;
 
+    @ConstructorProperties({"id", "name", "cost", "restaurant_Id", "updateDate", "error"})
     public DishTo(Integer id, String name, Integer cost, int restaurant_Id, LocalDate updateDate, boolean error) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.cost = cost;
         this.restaurant_Id = restaurant_Id;
         this.updateDate = updateDate;
         this.error = error;
     }
+
 
     public Integer getId() {
         return id;
