@@ -14,7 +14,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     @NotBlank
     @Size(min = 2, max = 128)
     @Column(name = "name", nullable = false)
-    @ApiModelProperty(example = "New mame")
+    @ApiModelProperty(example = "New name")
     protected String name;
 
     public AbstractNamedEntity() {

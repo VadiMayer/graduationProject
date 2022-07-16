@@ -1,6 +1,7 @@
 package topjava.quest.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.model.Dish;
 import topjava.quest.repository.DishRepository;
 
@@ -17,6 +18,7 @@ public class DataJpaDishRepository implements DishRepository {
     }
 
     @Override
+    @Transactional
     public Dish save(Dish dish, int restaurantId) {
         if (!dish.isNew()) {
             return null;

@@ -1,6 +1,7 @@
 package topjava.quest.web.dish;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,20 +45,22 @@ public class DishUIController {
     }
 
     @ApiOperation(value = "Create a dish for the restaurant")
-    @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Dish> createDishForRestaurant(@RequestBody @Valid DishTo dishTo) {
-        log.info("create {} for restaurant {}", dishTo, dishTo.getRestaurantId());
+    public ResponseEntity<Dish> createDishForRestaurant(@PathVariable(name = "id") @ApiParam(name = "id", value = "Restaurant ID", example = "100006") int restaurant_Id,
+                                                        @Valid @RequestBody Dish dish) {
+        log.info("create {} for restaurant {}", dish, restaurant_Id);
 
-        Dish dish = new Dish(dishTo.getId(), dishTo.getName(), dishTo.getCost(), LocalDate.now(), restaurantService.get(dishTo.getRestaurantId()));
         ValidationUtil.checkNew(dish);
-        Dish create = dishService.create(dish, dishTo.getRestaurantId());
+        Dish dishWithDate = new Dish(dish.getId(), dish.getDescription(), dish.getCost(), LocalDate.now(), restaurantService.get(restaurant_Id));
+
+        dishService.create(dishWithDate, restaurant_Id);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(dish.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(create);
+        return ResponseEntity.created(uriOfNewResource).body(dish);
     }
 
     @DeleteMapping("{id}")

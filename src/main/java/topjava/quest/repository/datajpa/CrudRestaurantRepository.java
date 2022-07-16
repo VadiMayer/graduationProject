@@ -31,7 +31,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 //    List<Restaurant> getBetweenRating(@Param("startRating") int startRating, @Param("endRating") int endRating);
 
     //Проверить что это за аннотация + что нужно написать dishes или dish
-    @EntityGraph(attributePaths = {"menu"})
+//    @EntityGraph(attributePaths = {"menu"})
     //@Query используются только при DATAJPA реализации ???
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithDishes(int id);

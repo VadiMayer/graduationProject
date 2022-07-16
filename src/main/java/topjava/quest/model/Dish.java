@@ -1,7 +1,9 @@
 package topjava.quest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import java.time.LocalDate;
 @Entity
 @NamedEntityGraph(name = Dish.graph, attributeNodes = {@NamedAttributeNode("restaurant")})
 @Table(name = "restaurant_dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "restaurant_id", name = "restaurant_dishes_unique_id_rest")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Dish extends AbstractBaseEntity {
 
     public static final String graph = "Dish.withRestaurants";
@@ -23,14 +26,17 @@ public class Dish extends AbstractBaseEntity {
     // что он не нулевое и не пустое. NotBlank относится только к String.
     @NotBlank
     @Size(min = 5, max = 90)
+    @ApiModelProperty(example = "New dishes")
     private String description;
 
     @Column(name = "cost", nullable = false)
     @NotNull
+    @ApiModelProperty(example = "600")
     private int cost;
 
     @Column(name = "update_date", nullable = false)
     @NotNull
+    @ApiModelProperty(hidden = true)
     private LocalDate updateDate;
 
     //Если ставить Lazy и у Restaurant lazy на menu вылетает исключение:
@@ -40,6 +46,7 @@ public class Dish extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Restaurant restaurant;
 
 

@@ -2,7 +2,6 @@ package topjava.quest.to;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

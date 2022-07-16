@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,12 +24,14 @@ import java.util.List;
 //})
 @Entity
 @Table(name = "restaurants")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Restaurant extends AbstractNamedEntity {
 //    public static final String GET_ALL = "Restaurant.getAll";
 //    public static final String DELETE = "Restaurant.delete";
 //    public static final String GET_BETWEEN_RATING = "Restaurant.getBetween";
 
     //FetchType.LAZY оборачивает в прокси, при попытке Jackson сериализации поля в JSON, транзакция уже зарыта, поэтому нужна @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("updateDate DESC")
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -2,6 +2,8 @@ package topjava.quest.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,6 +13,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractNamedEntity{
 
     @Column(name = "email", nullable = false, unique = true)
@@ -25,6 +28,7 @@ public class User extends AbstractNamedEntity{
     @ApiModelProperty(example = "newmame123")
     private String password;
 
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     //Будем enum сохранять как стинги
     @Enumerated(EnumType.STRING)
     //user_roles связывается с user_id

@@ -1,6 +1,7 @@
 package topjava.quest.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.model.Vote;
 import topjava.quest.repository.VoteRepository;
 import topjava.quest.util.ValidationUtil;
@@ -24,6 +25,7 @@ public class VoteService {
         return voteRepository.save(vote);
     }
 
+    @Transactional
     public Vote update(Vote vote, LocalTime rightNow) {
         Objects.requireNonNull(vote, "Vote must be not null");
         Objects.requireNonNull(rightNow, "Time must be not null");

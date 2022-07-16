@@ -2,6 +2,7 @@ package topjava.quest.util;
 
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
+import topjava.quest.HasId;
 import topjava.quest.model.AbstractBaseEntity;
 import topjava.quest.util.exception.NotFoundException;
 import topjava.quest.util.exception.TimeIsUpException;
@@ -10,16 +11,16 @@ import java.time.LocalTime;
 
 public class ValidationUtil {
 
-    public static void checkNew(AbstractBaseEntity entity) {
+    public static void checkNew(HasId entity) {
         if (!entity.isNew()) {
             throw new IllegalArgumentException(entity + " must be new (id=null)");
         }
     }
 
-    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
+    public static void assureIdConsistent(HasId entity, int id) {
         if (entity.isNew()) {
             entity.setId(id);
-        } else if (entity.haveId() != id) {
+        } else if (entity.id() != id) {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
     }
