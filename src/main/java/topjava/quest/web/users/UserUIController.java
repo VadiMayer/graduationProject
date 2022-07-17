@@ -26,7 +26,7 @@ public class UserUIController {
     @Autowired
     UserService userService;
 
-    @GetMapping
+    @GetMapping("/admin")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }

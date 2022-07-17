@@ -1,0 +1,39 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--Отключаем security для resources и webjars-->
+    <http pattern="/resources/**" security="none"/>
+    <http pattern="/webjars/**" security="none"/>
+
+    <!--накладываем авторизацию на /users/**,
+    use-expressions означает мы можем использовать экспрешены hasRole('ADMIN') и isAuthenticated(), без use-expressions не будет работать,
+    stateless означает, что rest запросы идут без сессии, спринг хранит авторизованного юзера в стрейт локал в контексте выполнения потока-->
+    <http pattern="/users/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+        <!--базовая авторизация выполняется в хедерах, вставляет логин и пароль разделенный двоеточием,
+        при использовании базовой необходимо использовать https - защищенный канал, иначе логин и пароль ничем не шифруются или использовать диджит-->
+        <http-basic/>
+        <!--накладываем ограничения на то, что под /users/**-->
+        <intercept-url pattern="/users/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <beans:bean name="noopEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder ref="noopEncoder"/>
+
+            <user-service>
+                <user name="vadim@gmail.com" password="vadim15" authorities="ROLE_ADMIN"/>
+                <user name="guest1@gmail.com" password="katy5" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

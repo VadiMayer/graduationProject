@@ -6,7 +6,7 @@ URL = http://localhost:8080/
 
 | API         | Method | Description                                   | URL                                       | User           |
 |-------------|--------|-----------------------------------------------|-------------------------------------------|----------------|
-|    Users    | GET    | Get all users                                 | {URL}/users/                              | Admin          |
+|    Users    | GET    | Get all users                                 | {URL}/users/admin                         | Admin          |
 |             | POST   | Register profile                              | {URL}/users/register                      | Unauthorized   |
 | Restaurants | GET    | Get all restaurants                           | {URL}/users/restaurants                   | Anybody        |
 |             | POST   | Create restaurant					           | {URL}/users/restaurants                   | Admin          |
