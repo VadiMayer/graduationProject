@@ -1,5 +1,7 @@
 package topjava.quest.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.model.Vote;
@@ -20,12 +22,14 @@ public class VoteService {
         this.voteRepository = voteRepository;
     }
 
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote create(Vote vote) {
         Objects.requireNonNull(vote, "Vote must be not null");
         return voteRepository.save(vote);
     }
 
     @Transactional
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote update(Vote vote, LocalTime rightNow) {
         Objects.requireNonNull(vote, "Vote must be not null");
         Objects.requireNonNull(rightNow, "Time must be not null");
@@ -33,10 +37,12 @@ public class VoteService {
         return ValidationUtil.checkNotFoundWithId(voteRepository.save(vote), vote.getId());
     }
 
+    @CacheEvict(value = "votes", allEntries = true)
     public void delete(int id, int userId) {
         ValidationUtil.checkNotFoundWithId(voteRepository.delete(id, userId), id);
     }
 
+    @Cacheable(value = "votes")
     public List<Vote> getAllForRestaurant(int restaurantId) {
         return ValidationUtil.checkNotFoundWithId(voteRepository.getAllForRestaurant(restaurantId), restaurantId);
     }

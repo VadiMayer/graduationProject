@@ -2,8 +2,10 @@ package topjava.quest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -35,7 +37,6 @@ public class Dish extends AbstractBaseEntity {
     private int cost;
 
     @Column(name = "update_date", nullable = false)
-    @NotNull
     @ApiModelProperty(hidden = true)
     private LocalDate updateDate;
 
@@ -44,7 +45,6 @@ public class Dish extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Restaurant restaurant;

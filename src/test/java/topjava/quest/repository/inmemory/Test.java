@@ -1,5 +1,11 @@
 package topjava.quest.repository.inmemory;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,27 +15,35 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
 
-        try {
-            System.err.print(" 0");
-            try {
-                System.err.print(" 1");
-                if (true) {
-                    throw new RuntimeException();
-                }
-                System.err.print(" 2");
-            }
-            finally {
-                System.err.print(" 4"); // заходим всегда
-            }
-            System.err.print(" 5");     // заходим - выполнение УЖЕ в норме
-        } catch (Exception e) {
-            System.err.println(" 6");
-            e.printStackTrace();
-        }
-        finally {
-            System.err.print(" 7");     // заходим всегда
-        }
-        System.err.print(" 8");         // заходим - выполнение УЖЕ в норме
+        User user = new User(1, "John");
+        Item item2 = new Item(2, "book2", user);
+        Item item3 = new Item(3, "book3", user);
+        user.addItem(item2);
+        user.addItem(item3);
+
+        System.out.println(new ObjectMapper().writeValueAsString(item3));
+
+//        try {
+//            System.err.print(" 0");
+//            try {
+//                System.err.print(" 1");
+//                if (true) {
+//                    throw new RuntimeException();
+//                }
+//                System.err.print(" 2");
+//            }
+//            finally {
+//                System.err.print(" 4"); // заходим всегда
+//            }
+//            System.err.print(" 5");     // заходим - выполнение УЖЕ в норме
+//        } catch (Exception e) {
+//            System.err.println(" 6");
+//            e.printStackTrace();
+//        }
+//        finally {
+//            System.err.print(" 7");     // заходим всегда
+//        }
+//        System.err.print(" 8");         // заходим - выполнение УЖЕ в норме
 
 
 //        try {
@@ -145,5 +159,45 @@ class C extends A {
     @Override
     void add() {
         strings.add("CCCCCCC");
+    }
+}
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+class User {
+    public int id;
+    public String name;
+
+//    @JsonManagedReference
+//    @JsonBackReference
+    public List<Item> userItems = new ArrayList<>();
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public void addItem(Item item) {
+        userItems.add(item);
+    }
+}
+
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+class Item {
+    public int id;
+    public String itemName;
+
+//    @JsonBackReference
+//    @JsonManagedReference
+    public User owner;
+
+    public Item(int id, String itemName, User owner) {
+        this.id = id;
+        this.itemName = itemName;
+        this.owner = owner;
     }
 }

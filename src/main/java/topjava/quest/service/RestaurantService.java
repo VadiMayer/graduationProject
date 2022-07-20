@@ -1,5 +1,7 @@
 package topjava.quest.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -22,6 +24,7 @@ public class RestaurantService {
         return ValidationUtil.checkNotFoundWithId(restaurantRepository.get(id), id);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         return restaurantRepository.save(restaurant);
@@ -30,15 +33,18 @@ public class RestaurantService {
     //Без аннотации транзакции не сохранялось имя ресторана!!!
     //Не проходил update даже если был restaurantRepository.save(restaurantCheck);
     @Transactional
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Restaurant restaurant) {
         Restaurant restaurantCheck = ValidationUtil.checkNotFoundWithId(restaurantRepository.get(restaurant.getId()), restaurant.getId());
         restaurantCheck.setName(restaurant.getName());
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(int id) {
         ValidationUtil.checkNotFoundWithId(restaurantRepository.delete(id), id);
     }
 
+    @Cacheable(value = "restaurants")
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.getAllRestaurants();
     }
