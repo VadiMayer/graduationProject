@@ -14,5 +14,4 @@ public interface DishRepository {
 
     List<Dish> getAllDishes();
 
-    List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end);
 }

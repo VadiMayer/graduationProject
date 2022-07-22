@@ -14,7 +14,7 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractNamedEntity{
+public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank
@@ -29,9 +29,7 @@ public class User extends AbstractNamedEntity{
     private String password;
 
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    //Будем enum сохранять как стинги
     @Enumerated(EnumType.STRING)
-    //user_roles связывается с user_id
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)

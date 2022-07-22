@@ -1,12 +1,18 @@
 package topjava.quest.web.vote;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
+import topjava.quest.AuthorizedUser;
 import topjava.quest.model.Restaurant;
 import topjava.quest.model.User;
 import topjava.quest.model.Vote;
@@ -16,13 +22,13 @@ import topjava.quest.service.VoteService;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static topjava.quest.util.RestaurantsAndDishesUtil.getVote;
+import static topjava.quest.util.UtilForTo.getVote;
 
 @RestController
+@PreAuthorize("hasRole('ROLE_USER')")
 @RequestMapping(value = VoteUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteUIController {
 
@@ -40,22 +46,30 @@ public class VoteUIController {
         this.userService = userService;
     }
 
+    @ApiOperation(value = "Get restaurant with votes",
+            notes = "For users and admins.",
+            authorizations = {@Authorization(value = "Basic")})
     @GetMapping("/restaurants/{id}")
     public List<Vote> getWithRestaurant(@ApiParam(name = "id", value = "Restaurants_Id", example = "100005") @PathVariable(name = "id") int restaurantsId) {
         log.info("get votes for restaurant with id {}", restaurantsId);
         return voteService.getAllForRestaurant(restaurantsId);
     }
 
+    @ApiOperation(value = "Create or update your vote",
+            notes = "For users and admins. If your vote until 11 a.m., you can edit, otherwise you must voting tomorrow.",
+            authorizations = {@Authorization(value = "Basic")})
     @PostMapping("/restaurants/{id}")
-    public ResponseEntity<Vote> createOrUpdateVote(@PathVariable(name = "id") int restaurantsId) {
+    public ResponseEntity<Vote> createOrUpdateVote(@PathVariable(name = "id")
+                                                   @ApiParam(name = "id", value = "Restaurant id", example = "100005") int restaurantsId,
+                                                   @ApiIgnore @AuthenticationPrincipal AuthorizedUser authorizedUser) {
         log.info("Vote for restaurant with id {} by user", restaurantsId);
         Vote created;
-        User user = userService.get(100001);
+        User user = userService.get(authorizedUser.getId());
         Restaurant restaurant = restaurantService.get(restaurantsId);
         Vote newVote = new Vote(null, user, restaurant, LocalDate.now());
 
-        if (voteService.getForToday(100001) != null) {
-            newVote.setId(voteService.getForToday(100001).getId());
+        if (voteService.getForToday(authorizedUser.getId()) != null) {
+            newVote.setId(voteService.getForToday(authorizedUser.getId()).getId());
             created = getVote(voteService.update(newVote, LocalTime.now()));
         } else {
             created = getVote(voteService.create(newVote));

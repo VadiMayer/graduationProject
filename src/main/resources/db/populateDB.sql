@@ -1,7 +1,11 @@
-DELETE FROM user_roles;
-DELETE FROM users;
-DELETE FROM restaurant_dishes;
-DELETE FROM restaurants;
+DELETE
+FROM user_roles;
+DELETE
+FROM users;
+DELETE
+FROM restaurant_dishes;
+DELETE
+FROM restaurants;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password)

@@ -14,8 +14,6 @@ public interface RestaurantRepository {
 
     List<Restaurant> getAllRestaurants();
 
-//    List<Restaurant> getBetweenRating(int startRating, int endRating);
-
     default Restaurant getWithDishes(int id) {
         throw new UnsupportedOperationException();
     }

@@ -30,8 +30,6 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    //Без аннотации транзакции не сохранялось имя ресторана!!!
-    //Не проходил update даже если был restaurantRepository.save(restaurantCheck);
     @Transactional
     @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Restaurant restaurant) {

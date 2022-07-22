@@ -1,13 +1,10 @@
 package topjava.quest.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
-import topjava.quest.model.Dish;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.beans.ConstructorProperties;
 import java.util.List;
 
 public class RestaurantTo extends BaseTo {

@@ -43,11 +43,6 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
         return crudRestaurantRepository.findAll(SORT_NAME);
     }
 
-//    @Override
-//    public List<Restaurant> getBetweenRating(int startRating, int endRating) {
-//        return crudRestaurantRepository.getBetweenRating(startRating, endRating);
-//    }
-
     @Override
     public Restaurant getWithDishes(int id) {
         return crudRestaurantRepository.getWithDishes(id);

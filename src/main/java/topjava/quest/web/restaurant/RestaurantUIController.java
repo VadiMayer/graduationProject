@@ -1,12 +1,15 @@
 package topjava.quest.web.restaurant;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.quest.model.Dish;
@@ -14,7 +17,7 @@ import topjava.quest.model.Restaurant;
 import topjava.quest.service.DishService;
 import topjava.quest.service.RestaurantService;
 import topjava.quest.to.RestaurantTo;
-import topjava.quest.util.RestaurantsAndDishesUtil;
+import topjava.quest.util.UtilForTo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,16 +26,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import static topjava.quest.util.RestaurantsAndDishesUtil.convertDishListInDishToList;
+import static topjava.quest.util.UtilForTo.convertDishListInDishToList;
 import static topjava.quest.util.ValidationUtil.assureIdConsistent;
 import static topjava.quest.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = RestaurantUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantUIController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public static final String REST_URL = "/users/restaurants";
+    public static final String REST_ADMIN_URL = "/users/admin/restaurants";
 
     private final RestaurantService restaurantService;
 
@@ -48,59 +52,62 @@ public class RestaurantUIController {
         return restaurantService.get(id);
     }
 
-    @GetMapping
+    @ApiOperation(value = "Get all restaurants with menu",
+            notes = "For users and admins",
+            authorizations = {@Authorization(value = "Basic")})
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/users/restaurants")
     public List<RestaurantTo> getAllWithMenu() {
         log.info("getAll");
         //при аннотации @JsonIgnore на поле private List<Dish> menu выводит все рестораны.
-        return RestaurantsAndDishesUtil.getTORestsList(restaurantService.getAllRestaurants(),
+        return UtilForTo.getTORestsList(restaurantService.getAllRestaurants(),
                 convertDishListInDishToList(dishService.getAll()));
     }
 
-    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete restaurant",
+            notes = "Only for admins",
+            authorizations = {@Authorization(value = "Basic")})
+    @DeleteMapping(REST_ADMIN_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@ApiParam(value = "Restaurant_Id", example = "100006") @PathVariable int id) {
-        //        int userId = SecurityUtil.authUserId();
         log.info("delete restaurant {}", id);
         restaurantService.delete(id);
     }
 
-    @PostMapping
+    @ApiOperation(value = "Create a new restaurant",
+            notes = "Only for admins",
+            authorizations = {@Authorization(value = "Basic")})
+    @PostMapping(REST_ADMIN_URL)
     public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody @Valid Restaurant restaurant) {
-//        int userId = SecurityUtil.authUserId();
         log.info("create {}", restaurant);
         checkNew(restaurant);
         Restaurant newRestaurant = restaurantService.create(restaurant);
 
         URI uriNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(REST_ADMIN_URL + "/{id}")
                 .buildAndExpand(newRestaurant.getId()).toUri();
 
         return ResponseEntity.created(uriNewResource).body(newRestaurant);
     }
 
-    @PutMapping(value = "/{id}")
+    @ApiOperation(value = "Update a restaurant",
+            notes = "Only for admins",
+            authorizations = {@Authorization(value = "Basic")})
+    @PutMapping(REST_ADMIN_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateRestaurant(@PathVariable(name = "id") @ApiParam(value = "Restaurant_Id", example = "100006") int id,
                                  @RequestBody @Valid Restaurant restaurant) {
-//        int userId = SecurityUtil.authUserId();
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
         restaurantService.update(restaurant);
     }
 
-//    public List<RestaurantTo> getBetweenRating(int startRating, int endRating) {
-//        List<RestaurantTo> toRestsList = RestaurantsAndDishesUtil.getTORestsList(restaurantService.getAllRestaurants(), convertDishListInDishToList(dishService.getAll()));
-//        return toRestsList.stream()
-//                .filter(rest -> rest.getRating() > startRating && rest.getRating() < endRating).toList();
-//    }
-
     //Сортировка для админа по дате обновления еды
     public List<RestaurantTo> getBetween(@Nullable LocalDate start, @Nullable LocalDate end, boolean restaurantNeedUpdate) {
-//        int userId = SecurityUtil.authUserId();
 //        log.info("getBetween dates({} - {}) for user {}", start, end, userId);
         List<Dish> dishDateFiltered = null;
         List<Restaurant> restaurantsDateFiltered = null;
-        return RestaurantsAndDishesUtil.getFilteredTOsForAdmin(restaurantsDateFiltered, dishDateFiltered, restaurantNeedUpdate);
+        return UtilForTo.getFilteredTOsForAdmin(restaurantsDateFiltered, dishDateFiltered, restaurantNeedUpdate);
     }
 
     private int getRestaurantId(HttpServletRequest request) {

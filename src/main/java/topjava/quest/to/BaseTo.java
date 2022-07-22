@@ -15,7 +15,6 @@ public class BaseTo implements HasId {
         this.id = id;
     }
 
-
     @Override
     public Integer getId() {
         return null;

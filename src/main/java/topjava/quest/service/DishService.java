@@ -39,8 +39,4 @@ public class DishService {
     public List<Dish> getAll() {
         return repository.getAllDishes();
     }
-
-    public void getRequiresAnUpdate(LocalDate localDate) {
-
-    }
 }

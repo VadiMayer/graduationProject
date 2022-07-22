@@ -5,13 +5,6 @@
     <!--http://www.ehcache.org/documentation/3.8/xml.html-->
     <!--http://www.ehcache.org/documentation/3.8/107.html#supplement-jsr-107-configurations-->
 
-    <cache-template name="expiryCache">
-        <expiry>
-            <ttl unit="minutes">6</ttl>
-        </expiry>
-        <heap unit="entries">5500</heap>
-    </cache-template>
-
     <cache-template name="singleNonExpiryCache">
         <expiry>
             <none/>

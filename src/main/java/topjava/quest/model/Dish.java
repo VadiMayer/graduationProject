@@ -22,10 +22,8 @@ import java.time.LocalDate;
 public class Dish extends AbstractBaseEntity {
 
     public static final String graph = "Dish.withRestaurants";
-    //nullable в базе данных генерится колонка в таблице в которой мы не сможем создать null
+
     @Column(name = "description", nullable = false)
-    //NotBlank говорит о том, что до того, как мы будем сохранять в базу данных проверяем поле,
-    // что он не нулевое и не пустое. NotBlank относится только к String.
     @NotBlank
     @Size(min = 5, max = 90)
     @ApiModelProperty(example = "New dishes")
@@ -40,8 +38,6 @@ public class Dish extends AbstractBaseEntity {
     @ApiModelProperty(hidden = true)
     private LocalDate updateDate;
 
-    //Если ставить Lazy и у Restaurant lazy на menu вылетает исключение:
-    //org.hibernate.LazyInitializationException: could not initialize proxy [topjava.quest.model.Restaurant#100005] - no Session
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

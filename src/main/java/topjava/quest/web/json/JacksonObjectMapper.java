@@ -19,7 +19,6 @@ public class JacksonObjectMapper extends ObjectMapper {
         registerModule(new JavaTimeModule());
         configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        //JsonAutoDetect позволяет Jackson сериализовать по умолчанию поля, а не геттеры и сеттеры, как он это делает изначально
         setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
