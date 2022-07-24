@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import topjava.quest.AuthorizedUser;
 import topjava.quest.model.User;
@@ -16,13 +17,18 @@ import topjava.quest.util.ValidationUtil;
 import java.util.List;
 import java.util.Objects;
 
+import static topjava.quest.util.Util.prepareToSave;
+
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
-    private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User get(int id) {
@@ -37,7 +43,11 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         Objects.requireNonNull(user, "User must be not null");
-        return repository.save(user);
+        return prepareAndSave(user);
+    }
+
+    private User prepareAndSave(User user) {
+        return repository.save(prepareToSave(user, passwordEncoder));
     }
 
     @Override

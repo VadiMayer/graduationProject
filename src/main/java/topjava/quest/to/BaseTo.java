@@ -5,7 +5,7 @@ import topjava.quest.HasId;
 
 public class BaseTo implements HasId {
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(example = "100012")
     protected Integer id;
 
     public BaseTo() {

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,16 +16,13 @@ import topjava.quest.model.Restaurant;
 import topjava.quest.service.DishService;
 import topjava.quest.service.RestaurantService;
 import topjava.quest.to.RestaurantTo;
-import topjava.quest.util.UtilForTo;
+import topjava.quest.util.Util;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
-import static topjava.quest.util.UtilForTo.convertDishListInDishToList;
+import static topjava.quest.util.Util.convertDishListInDishToList;
 import static topjava.quest.util.ValidationUtil.assureIdConsistent;
 import static topjava.quest.util.ValidationUtil.checkNew;
 
@@ -59,8 +55,7 @@ public class RestaurantUIController {
     @GetMapping("/users/restaurants")
     public List<RestaurantTo> getAllWithMenu() {
         log.info("getAll");
-        //при аннотации @JsonIgnore на поле private List<Dish> menu выводит все рестораны.
-        return UtilForTo.getTORestsList(restaurantService.getAllRestaurants(),
+        return Util.getTORestsList(restaurantService.getAllRestaurants(),
                 convertDishListInDishToList(dishService.getAll()));
     }
 
@@ -102,16 +97,15 @@ public class RestaurantUIController {
         restaurantService.update(restaurant);
     }
 
-    //Сортировка для админа по дате обновления еды
-    public List<RestaurantTo> getBetween(@Nullable LocalDate start, @Nullable LocalDate end, boolean restaurantNeedUpdate) {
-//        log.info("getBetween dates({} - {}) for user {}", start, end, userId);
-        List<Dish> dishDateFiltered = null;
-        List<Restaurant> restaurantsDateFiltered = null;
-        return UtilForTo.getFilteredTOsForAdmin(restaurantsDateFiltered, dishDateFiltered, restaurantNeedUpdate);
-    }
-
-    private int getRestaurantId(HttpServletRequest request) {
-        return Integer.parseInt(Objects.requireNonNull(request.getParameter("id")));
+    @ApiOperation(value = "Filter the restaurants",
+            notes = "Only for admins. Filter restaurants, if need requiring update or not.",
+            authorizations = {@Authorization(value = "Basic")})
+    @GetMapping(REST_ADMIN_URL + "/filter")
+    public List<RestaurantTo> getBetweenRequiringUpdating(boolean restaurantRequiringUpdating) {
+        log.info("get between requiring updating {}", restaurantRequiringUpdating);
+        List<Dish> dishesList = dishService.getAll();
+        List<Restaurant> restaurantsList = restaurantService.getAllRestaurants();
+        return Util.getFilteredTOsForAdmin(restaurantsList, dishesList, restaurantRequiringUpdating);
     }
 
 }

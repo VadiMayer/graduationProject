@@ -1,5 +1,6 @@
 package topjava.quest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -26,6 +27,8 @@ public class User extends AbstractNamedEntity {
     @NotBlank
     @Size(min = 5, max = 128)
     @ApiModelProperty(example = "newmame123")
+    // https://stackoverflow.com/a/12505165/548473
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

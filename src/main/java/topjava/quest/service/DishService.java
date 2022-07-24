@@ -3,7 +3,9 @@ package topjava.quest.service;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.model.Dish;
+import topjava.quest.model.Restaurant;
 import topjava.quest.repository.DishRepository;
 import topjava.quest.util.ValidationUtil;
 
@@ -19,15 +21,23 @@ public class DishService {
         this.repository = repository;
     }
 
+    public Dish get(int id) {
+        return ValidationUtil.checkNotFoundWithId(repository.get(id), id);
+    }
+
     @CacheEvict(value = "dishes", allEntries = true)
     public Dish create(Dish dish, int restaurantId) {
         ValidationUtil.checkNotFoundWithId(dish, restaurantId);
         return repository.save(dish, restaurantId);
     }
 
+    @Transactional
     @CacheEvict(value = "dishes", allEntries = true)
-    public void update(Dish dish, int restaurantId) {
-        ValidationUtil.checkNotFoundWithId(repository.save(dish, restaurantId), dish.getId());
+    public void update(Dish dish) {
+        Dish dishCheck = repository.get(dish.getId());
+        dishCheck.setDescription(dish.getDescription());
+        dishCheck.setCost(dish.getCost());
+        dishCheck.setRestaurant(dish.getRestaurant());
     }
 
     @CacheEvict(value = "dishes", allEntries = true)

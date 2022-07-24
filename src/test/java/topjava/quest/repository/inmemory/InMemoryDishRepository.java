@@ -35,6 +35,11 @@ public class InMemoryDishRepository implements DishRepository {
     }
 
     @Override
+    public Dish get(int id) {
+        return null;
+    }
+
+    @Override
     public Dish save(Dish dish, int restaurantId) {
         Objects.requireNonNull(dish, "dish must not be null");
         var dishes = restaurantsDishesMap.computeIfAbsent(restaurantId, rId -> new InMemoryBaseRepository<>());
@@ -48,11 +53,6 @@ public class InMemoryDishRepository implements DishRepository {
 
     @Override
     public List<Dish> getAllDishes() {
-        return null;
-    }
-
-    @Override
-    public List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end) {
         return null;
     }
 }

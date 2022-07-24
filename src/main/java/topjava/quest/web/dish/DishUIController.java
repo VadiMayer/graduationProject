@@ -22,7 +22,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import static topjava.quest.util.UtilForTo.convertDishListInDishToList;
+import static topjava.quest.util.Util.convertDishListInDishToList;
 
 @RestController
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -72,11 +72,22 @@ public class DishUIController {
         return ResponseEntity.created(uriOfNewResource).body(dish);
     }
 
+    @ApiOperation(value = "Update a dish",
+            notes = "Only for admins",
+            authorizations = {@Authorization(value = "Basic")})
+    @PutMapping("/restaurants")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody DishTo dish) {
+        log.info("update dish with id {}", dish.getId());
+        Dish dishFromTo = new Dish(dish.getId(), dish.getName(), dish.getCost(),
+                LocalDate.now(), restaurantService.get(dish.getRestaurantId()));
+        dishService.update(dishFromTo);
+    }
+
     @ApiOperation(value = "Delete dish",
             notes = "Only for admins",
             authorizations = {@Authorization(value = "Basic")})
     @DeleteMapping("{id}")
-    //Если не отдавать статус, то в браузере в фаерфокс в инструментах отладки будет ошибка, в хроме все нормально, поэтом лучше отдавать.
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(name = "id")
                        @ApiParam(name = "id", value = "Dish id", example = "100012") int id) {

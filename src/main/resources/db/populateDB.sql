@@ -9,11 +9,11 @@ FROM restaurants;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password)
-VALUES ('VadimUserAdmin', 'vadim@gmail.com', 'vadim15'),
-       ('MuratUser', 'murat@gmail.com', 'murat60'),
-       ('SergeyUser', 'sergey@gmail.com', 'sergey'),
-       ('KatyGuest', 'guest1@gmail.com', 'katy5'),
-       ('VikaGuest', 'guest2@gmail.com', 'vika6');
+VALUES ('VadimUserAdmin', 'vadim@gmail.com', '{noop}vadim15'),
+       ('MuratUser', 'murat@gmail.com', '{noop}murat60'),
+       ('SergeyUser', 'sergey@gmail.com', '{noop}sergey'),
+       ('KatyGuest', 'guest1@gmail.com', '{noop}katy5'),
+       ('VikaGuest', 'guest2@gmail.com', '{noop}vika6');
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),

@@ -1,5 +1,6 @@
 package topjava.quest.util;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;
 import topjava.quest.model.User;
@@ -16,7 +17,7 @@ import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
-public class UtilForTo {
+public class Util {
 
     public static UserTo userAsTo(User user) {
         return new UserTo(user.id(), user.getName(), user.getEmail(), user.getPassword());
@@ -92,5 +93,11 @@ public class UtilForTo {
     public static List<RestaurantTo> getFilteredTOsForAdmin(List<Restaurant> restaurants, List<Dish> dishes, boolean filter) {
         List<RestaurantTo> allRestaurantTrueAndFalse = getTORestsList(restaurants, convertDishListInDishToList(dishes));
         return allRestaurantTrueAndFalse.stream().filter(rest -> rest.isError() == filter).toList();
+    }
+
+    public static User prepareToSave(User user, PasswordEncoder passwordEncoder) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
+        return user;
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static topjava.quest.util.UtilForTo.getVote;
+import static topjava.quest.util.Util.getVote;
 
 @RestController
 @PreAuthorize("hasRole('ROLE_USER')")
@@ -59,6 +60,7 @@ public class VoteUIController {
             notes = "For users and admins. If your vote until 11 a.m., you can edit, otherwise you must voting tomorrow.",
             authorizations = {@Authorization(value = "Basic")})
     @PostMapping("/restaurants/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Vote> createOrUpdateVote(@PathVariable(name = "id")
                                                    @ApiParam(name = "id", value = "Restaurant id", example = "100005") int restaurantsId,
                                                    @ApiIgnore @AuthenticationPrincipal AuthorizedUser authorizedUser) {

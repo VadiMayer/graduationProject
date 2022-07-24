@@ -18,6 +18,11 @@ public class DataJpaDishRepository implements DishRepository {
     }
 
     @Override
+    public Dish get(int id) {
+        return crudRepository.findById(id).orElse(null);
+    }
+
+    @Override
     @Transactional
     public Dish save(Dish dish, int restaurantId) {
         if (!dish.isNew()) {
@@ -36,8 +41,4 @@ public class DataJpaDishRepository implements DishRepository {
         return crudRepository.getAll();
     }
 
-    @Override
-    public List<Dish> getRequiresAnUpdate(LocalDate start, LocalDate end) {
-        return null;
-    }
 }

@@ -2,7 +2,7 @@ package topjava.quest;
 
 import topjava.quest.model.User;
 import topjava.quest.to.UserTo;
-import topjava.quest.util.UtilForTo;
+import topjava.quest.util.Util;
 
 import java.io.Serial;
 
@@ -11,15 +11,24 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private transient UserTo userTo;
+    private UserTo userTo;
 
     public AuthorizedUser(User user) {
         super(user.getEmail(), user.getPassword(), true, true, true, true, user.getRoleSet());
-        this.userTo = UtilForTo.userAsTo(user);
+        setUserTo(Util.userAsTo(user));
     }
 
     public int getId() {
         return userTo.id();
+    }
+
+    public void setUserTo(UserTo userTo) {
+        userTo.setPassword(null);
+        this.userTo = userTo;
+    }
+
+    public UserTo getUserTo() {
+        return userTo;
     }
 
     @Override

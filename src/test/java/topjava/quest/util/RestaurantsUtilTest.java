@@ -70,18 +70,18 @@ public class RestaurantsUtilTest extends AbstractServiceTest {
 
     @Test
     public static List<RestaurantTo> getTORestsList(List<Restaurant> restaurants, List<DishTo> dishes) {
-        return UtilForTo.getTORestsList(restaurants, dishes);
+        return Util.getTORestsList(restaurants, dishes);
     }
 
 
     @Test
     public static List<RestaurantTo> getFilteredTOsForAdmin(List<Restaurant> restaurants, List<Dish> dishes, boolean filter) {
-        return UtilForTo.getFilteredTOsForAdmin(restaurants, dishes, filter);
+        return Util.getFilteredTOsForAdmin(restaurants, dishes, filter);
     }
 
     @Test
     public static List<DishTo> convertDishListInDishToList(List<Dish> dishes) {
-        return UtilForTo.convertDishListInDishToList(dishes);
+        return Util.convertDishListInDishToList(dishes);
     }
 
 //    @Test
