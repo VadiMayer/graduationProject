@@ -9,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.quest.AuthorizedUser;
 import topjava.quest.model.User;
 import topjava.quest.repository.UserRepository;
+import topjava.quest.to.UserTo;
 import topjava.quest.util.ValidationUtil;
 
 import java.util.List;
@@ -57,5 +59,21 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }
         return new AuthorizedUser(user);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", allEntries = true)
+    public void update(UserTo userTo) {
+        Objects.requireNonNull(userTo, "User must be not null");
+        User userFromBase = get(userTo.id());
+        userFromBase.setName(userTo.getName());
+        userFromBase.setEmail(userTo.getEmail().toLowerCase());
+        userFromBase.setPassword(userTo.getPassword());
+        prepareAndSave(userFromBase);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void delete(int id) {
+        ValidationUtil.checkNotFoundWithId(repository.delete(id), id);
     }
 }

@@ -26,8 +26,8 @@ import static topjava.quest.util.Util.convertDishListInDishToList;
 
 @RestController
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@RequestMapping(value = DishUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class DishUIController {
+@RequestMapping(value = DishRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class DishRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public static final String REST_URL = "/users/admin/dishes";
@@ -36,7 +36,7 @@ public class DishUIController {
 
     private final DishService dishService;
 
-    public DishUIController(RestaurantService restaurantService, DishService dishService) {
+    public DishRestController(RestaurantService restaurantService, DishService dishService) {
         this.restaurantService = restaurantService;
         this.dishService = dishService;
     }
@@ -75,13 +75,13 @@ public class DishUIController {
     @ApiOperation(value = "Update a dish",
             notes = "Only for admins",
             authorizations = {@Authorization(value = "Basic")})
-    @PutMapping("/restaurants")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody DishTo dish) {
-        log.info("update dish with id {}", dish.getId());
-        Dish dishFromTo = new Dish(dish.getId(), dish.getName(), dish.getCost(),
-                LocalDate.now(), restaurantService.get(dish.getRestaurantId()));
-        dishService.update(dishFromTo);
+    public void update(@PathVariable(name = "id") @ApiParam(name = "id", value = "Dish ID", example = "100012") int dish_Id,
+                       @Valid @RequestBody Dish dish) {
+        log.info("update dish with id {}", dish_Id);
+        dish.setId(dish_Id);
+        dishService.update(dish);
     }
 
     @ApiOperation(value = "Delete dish",

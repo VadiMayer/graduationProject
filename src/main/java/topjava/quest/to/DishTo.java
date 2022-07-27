@@ -42,11 +42,6 @@ public class DishTo extends BaseTo implements Comparable<DishTo> {
         this.error = error;
     }
 
-
-    public Integer getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }

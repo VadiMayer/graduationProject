@@ -29,7 +29,7 @@ import static topjava.quest.util.ValidationUtil.checkNew;
 @RestController
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestaurantUIController {
+public class RestaurantRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public static final String REST_ADMIN_URL = "/users/admin/restaurants";
@@ -38,7 +38,7 @@ public class RestaurantUIController {
 
     private final DishService dishService;
 
-    public RestaurantUIController(RestaurantService restaurantService, DishService dishService) {
+    public RestaurantRestController(RestaurantService restaurantService, DishService dishService) {
         this.restaurantService = restaurantService;
         this.dishService = dishService;
     }

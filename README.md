@@ -32,9 +32,6 @@ Credentials for Swagger2:
 |      USER       | murat@gmail.com |    murat60   |
 |                 |                 |              |
 
-
-
-
 API endpoints
 
 http://localhost:8080/v2/api-docs
@@ -45,12 +42,15 @@ URL = http://localhost:8080/
 |-------------|--------|-----------------------------------------------|-------------------------------------------|----------------|
 |    Users    | GET    | Get all users                                 | {URL}/users/admin                         | Admin          |
 |             | POST   | Register profile                              | {URL}/users/register                      | Unauthorized   |
+|   Profile   | PUT    | Update profile                                | {URL}/users/profile                       | Authorized     |
+|             | DELETE | Delete profile                                | {URL}/users/profile                       | Authorized     |
 | Restaurants | GET    | Get all restaurants                           | {URL}/users/restaurants                   | Authorized     |
 |             | POST   | Create restaurant					           | {URL}/users/admin/restaurants             | Admin          |
 |             | PUT    | Update restaurant                             | {URL}/users/admin/restaurants{id}         | Admin          |
 |             | DELETE | Delete restaurant                             | {URL}/users/admin/restaurants{id}         | Admin          |
 |   Dishes    | GET    | Get all dishes                                | {URL}/users/admin/dishes                  | Admin          |
-|             | POST   | Create dish, id of restaurant takes in DishTo | {URL}/users/admin/dishes/restaurants/{id} | Admin          |
+|             | POST   | Create dish                                   | {URL}/users/admin/dishes/restaurants/{id} | Admin          |
+|             | PUT    | Update dish                                   | {URL}/users/admin/dishes/{id}             | Admin          |
 |             | DELETE | Delete dish                                   | {URL}/users/admin/dishes/{id}             | Admin          |
 |   Votes     | GET    | Get all for restaurant                        | {URL}/users/votes/restaurants/{id}        | Authorized     |
 |             | POST   | Create vote for restaurant                    | {URL}/users/votes/restaurants/{id}        | Authorized     |

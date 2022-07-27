@@ -30,8 +30,8 @@ import static topjava.quest.util.Util.getVote;
 
 @RestController
 @PreAuthorize("hasRole('ROLE_USER')")
-@RequestMapping(value = VoteUIController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class VoteUIController {
+@RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class VoteRestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -41,7 +41,7 @@ public class VoteUIController {
     private final RestaurantService restaurantService;
     private final UserService userService;
 
-    public VoteUIController(VoteService voteService, RestaurantService restaurantService, UserService userService) {
+    public VoteRestController(VoteService voteService, RestaurantService restaurantService, UserService userService) {
         this.voteService = voteService;
         this.restaurantService = restaurantService;
         this.userService = userService;
@@ -64,7 +64,7 @@ public class VoteUIController {
     public ResponseEntity<Vote> createOrUpdateVote(@PathVariable(name = "id")
                                                    @ApiParam(name = "id", value = "Restaurant id", example = "100005") int restaurantsId,
                                                    @ApiIgnore @AuthenticationPrincipal AuthorizedUser authorizedUser) {
-        log.info("Vote for restaurant with id {} by user", restaurantsId);
+        log.info("Vote for restaurant with id {} by user {}", restaurantsId, authorizedUser.getId());
         Vote created;
         User user = userService.get(authorizedUser.getId());
         Restaurant restaurant = restaurantService.get(restaurantsId);

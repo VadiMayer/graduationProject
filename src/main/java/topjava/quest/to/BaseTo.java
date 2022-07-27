@@ -5,7 +5,7 @@ import topjava.quest.HasId;
 
 public class BaseTo implements HasId {
 
-    @ApiModelProperty(example = "100012")
+    @ApiModelProperty(hidden = true)
     protected Integer id;
 
     public BaseTo() {
@@ -17,7 +17,7 @@ public class BaseTo implements HasId {
 
     @Override
     public Integer getId() {
-        return null;
+        return id;
     }
 
     @Override

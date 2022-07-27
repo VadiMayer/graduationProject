@@ -21,14 +21,6 @@ public class RestaurantTo extends BaseTo {
 
     private boolean error;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getNameRestaurant() {
-        return nameRestaurant;
-    }
-
     public int getRestaurant_id() {
         return restaurant_id;
     }
@@ -39,14 +31,6 @@ public class RestaurantTo extends BaseTo {
 
     public void setError(boolean error) {
         this.error = error;
-    }
-
-    public List<DishTo> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(List<DishTo> menu) {
-        this.menu = menu;
     }
 
     public RestaurantTo(Integer id, String nameRestaurant, int restaurant_id, List<DishTo> menu) {

@@ -14,6 +14,11 @@
         <intercept-url pattern="/users/admin/**" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/users/register" method="POST" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <intercept-url pattern="/swagger-ui.html" access="permitAll()"/>
+        <intercept-url pattern="/swagger-resources/**" access="permitAll()"/>
+        <intercept-url pattern="/v2/api-docs/**" access="permitAll()"/>
+
         <csrf disabled="true"/>
     </http>
 

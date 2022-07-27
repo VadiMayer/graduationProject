@@ -14,4 +14,6 @@ public interface UserRepository {
 
     User getByEmail(String email);
 
+    boolean delete(int id);
+
 }

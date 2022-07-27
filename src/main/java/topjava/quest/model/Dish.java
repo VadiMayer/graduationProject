@@ -84,6 +84,10 @@ public class Dish extends AbstractBaseEntity {
         return updateDate;
     }
 
+    public void setUpdateDate(LocalDate updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
