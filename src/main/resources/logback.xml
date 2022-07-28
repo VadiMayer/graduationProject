@@ -14,7 +14,7 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <encoder>UTF-8</encoder>
-            <pattern>%data{HH:mm:ss.SSS} %boldYellow(%-5level) %green(%class{50}.%M:%L) - %msg%</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %boldYellow(%-5level) %green(%class{50}.%M:%L) - %msg%n</pattern>
         </encoder>
     </appender>
 

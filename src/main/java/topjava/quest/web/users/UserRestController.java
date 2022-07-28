@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import topjava.quest.model.Role;
 import topjava.quest.model.User;
+import topjava.quest.to.UserTo;
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -32,7 +35,9 @@ public class UserRestController extends AbstractRestController {
             notes = "This endpoint for unregistered users.")
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> registerNewUser(@Valid @RequestBody User user) {
+    public ResponseEntity<User> registerNewUser(@Valid @RequestBody UserTo userTo) {
+
+        User user = new User(null, userTo.getName(), userTo.getEmail(), userTo.getPassword(), Role.USER);
 
         URI uriNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/" + user.getId())
