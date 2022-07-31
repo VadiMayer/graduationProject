@@ -1,18 +1,14 @@
 package topjava.quest.service.datajpa;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import topjava.quest.MatcherFactory;
 import topjava.quest.model.Restaurant;
 import topjava.quest.repository.DishRepository;
 import topjava.quest.service.AbstractServiceTest;
 import topjava.quest.service.RestaurantService;
 
-import static org.junit.Assert.*;
 import static topjava.quest.RestaurantTestData.*;
 
-@ActiveProfiles("datajpa")
 public class DataJpaRestaurantRepositoryTest extends AbstractServiceTest {
 
     @Autowired

@@ -1,6 +1,6 @@
 package topjava.quest.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import topjava.quest.model.Dish;
 import topjava.quest.model.Restaurant;

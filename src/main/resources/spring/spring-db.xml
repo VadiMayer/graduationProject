@@ -11,13 +11,11 @@
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--Для автоматической инициализации базы данных-->
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
-    <!--Подключение аннотаций транзакций-->
     <tx:annotation-driven/>
 
 <!--    <beans profile="hsqldb">-->
@@ -33,63 +31,47 @@
 <!--        />-->
 <!--    </beans>-->
 
-    <!--Создание бина-профиля базы данных postgres-->
-<!--    <beans profile="postgres">-->
+    <!--Для ведения журнала драйверов postgres.
+    Он использует java.util.logging и регистрируется через мост jul-to-slf4j-->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
+    </bean>
 
-        <!--Для ведения журнала драйверов postgres.
-        Он использует java.util.logging и регистрируется через мост jul-to-slf4j-->
-        <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
-            <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
-        </bean>
+    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 
-        <!--С какого location будут считываться properties, Spring распарсивает проперти файл и ключи можем напрямую использовать в бинах
-        SYSTEM_PROPERTIES_MODE_OVERRIDE - cначала проверьте системные свойства, прежде чем пробовать указанные свойства.-->
-        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    <bean id="dataSource"
+          class="org.apache.tomcat.jdbc.pool.DataSource"
+          p:driverClassName="org.postgresql.Driver"
+          p:url="${database.url}"
+          p:username="${database.username}"
+          p:password="${database.password}"/>
 
-        <!--Откуда будут браться connections-->
-        <bean id="dataSource"
-              class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:driverClassName="org.postgresql.Driver"
-              p:url="${database.url}"
-              p:username="${database.username}"
-              p:password="${database.password}"/>
-<!--    </beans>-->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:packagesToScan="topjava.quest.model">
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+                       value="${hibernate.use_sql_comments}"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}"
+                       value="${hibernate.jpa_proxy_compliance}"/>
+                <!--https://github.com/hibernate/hibernate-orm/blob/master/documentation/src/main/asciidoc/userguide/chapters/caching/Caching.adoc#caching-provider-jcache-->
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).CACHE_REGION_FACTORY}" value="org.hibernate.cache.jcache.internal.JCacheRegionFactory"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SECOND_LEVEL_CACHE}" value="true"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_QUERY_CACHE}" value="false"/> <!--default-->
+                <entry key="#{T(org.hibernate.cache.jcache.ConfigSettings).PROVIDER}" value="org.ehcache.jsr107.EhcacheCachingProvider"/>
+            </map>
+        </property>
 
-<!--    <beans profile="datajpa">-->
-        <!--EntityManagerFactory служит для создания EntityManager, чтобы ими обращаться в BD.
-        Local EntityManagerFactory - это значит что участвует одна база данных, без распределенных JTA транзакций, которые используют больше одной базы данных-->
-        <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-              p:dataSource-ref="dataSource"
-              p:packagesToScan="topjava.quest.model">
-            <property name="jpaPropertyMap">
-                <map>
-                    <!--Включить форматирование SQL, записанного в консоль-->
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
-                    <!--Добавление комментариев к сгенерированному SQL-->
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
-                           value="${hibernate.use_sql_comments}"/>
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}"
-                           value="${hibernate.jpa_proxy_compliance}"/>
-                    <!--Hibernate делит на регионы области кэширования инвалидирует регионами связные таблицы-->
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).CACHE_REGION_FACTORY}" value="org.hibernate.cache.jcache.internal.JCacheRegionFactory"/>
-                    <!--Выставляем флаг true по умолчанию он false-->
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SECOND_LEVEL_CACHE}" value="true"/>
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_QUERY_CACHE}" value="false"/> <!--default-->
-                    <entry key="#{T(org.hibernate.cache.jcache.ConfigSettings).PROVIDER}" value="org.ehcache.jsr107.EhcacheCachingProvider"/>
-                </map>
-            </property>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${jpa.showSql}"/>
+        </property>
+    </bean>
 
-            <property name="jpaVendorAdapter">
-                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${jpa.showSql}"/>
-            </property>
-        </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:entityManagerFactory-ref="entityManagerFactory"/>
 
-        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
-              p:entityManagerFactory-ref="entityManagerFactory"/>
-<!--    </beans>-->
-
-<!--    <beans profile="datajpa">-->
-        <context:component-scan base-package="topjava.quest.repository.datajpa"/>
-        <jpa:repositories base-package="topjava.quest.repository.datajpa"/>
-<!--    </beans>-->
+    <context:component-scan base-package="topjava.quest.repository.datajpa"/>
+    <jpa:repositories base-package="topjava.quest.repository.datajpa"/>
 </beans>

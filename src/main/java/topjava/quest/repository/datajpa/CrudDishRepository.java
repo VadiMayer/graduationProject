@@ -19,6 +19,6 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     int delete(@Param("id") int id);
 
     @EntityGraph(value = Dish.graph)
-    @Query("SELECT d FROM Dish d ORDER BY d.updateDate DESC")
+    @Query("SELECT d FROM Dish d ORDER BY d.id")
     List<Dish> getAll();
 }

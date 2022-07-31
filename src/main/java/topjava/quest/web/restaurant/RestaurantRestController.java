@@ -101,7 +101,7 @@ public class RestaurantRestController {
             notes = "Only for admins. Filter restaurants, if need requiring update or not.",
             authorizations = {@Authorization(value = "Basic")})
     @GetMapping(REST_ADMIN_URL + "/filter")
-    public List<RestaurantTo> getBetweenRequiringUpdating(@ApiParam(value = "Restaurant requiring updating") boolean restaurantRequiringUpdating) {
+    public List<RestaurantTo> getBetweenRequiringUpdating(boolean restaurantRequiringUpdating) {
         log.info("get between requiring updating {}", restaurantRequiringUpdating);
         List<Dish> dishesList = dishService.getAll();
         List<Restaurant> restaurantsList = restaurantService.getAllRestaurants();
