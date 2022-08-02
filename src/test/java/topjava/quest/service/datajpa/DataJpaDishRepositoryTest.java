@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static topjava.quest.DishTestData.DISH_MATCHER;
 import static topjava.quest.DishTestData.dishList;
 import static topjava.quest.RestaurantTestData.RESTAURANT;
+import static topjava.quest.RestaurantTestData.RESTAURANT_100005;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
 public class DataJpaDishRepositoryTest extends AbstractServiceTest {
@@ -43,8 +44,8 @@ public class DataJpaDishRepositoryTest extends AbstractServiceTest {
 
     @Test
     void createWithException() {
-        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "   ", 1004, LocalDate.now(), RESTAURANT), RESTAURANT.getRestaurant_id()));
-        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "Пончики", 1004, null, RESTAURANT), RESTAURANT.getRestaurant_id()));
-        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "Пончики", 0, LocalDate.now(), RESTAURANT), RESTAURANT.getRestaurant_id()));
+        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "   ", 1004, LocalDate.now(), RESTAURANT_100005), RESTAURANT_100005.getRestaurant_id()));
+        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "Пончики", 1004, null, RESTAURANT_100005), RESTAURANT_100005.getRestaurant_id()));
+        validateRootCause(ConstraintViolationException.class, () -> dishService.create(new Dish(null, "Пончики", 0, LocalDate.now(), RESTAURANT_100005), RESTAURANT_100005.getRestaurant_id()));
     }
 }

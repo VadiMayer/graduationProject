@@ -35,6 +35,7 @@ public class Dish extends AbstractBaseEntity {
     private int cost;
 
     @Column(name = "update_date", nullable = false)
+    @NotNull
     @ApiModelProperty(hidden = true)
     private LocalDate updateDate;
 
@@ -63,6 +64,13 @@ public class Dish extends AbstractBaseEntity {
         this.cost = cost;
         this.updateDate = updateDate;
         this.restaurant = restaurant;
+    }
+
+    public Dish(Integer id, String description, int cost, LocalDate updateDate) {
+        super(id);
+        this.description = description;
+        this.cost = cost;
+        this.updateDate = updateDate;
     }
 
     public Dish(Integer id, String description, int cost, int restaurant_idTest, LocalDate updateDate) {

@@ -23,7 +23,7 @@ public class DishTo extends BaseTo implements Comparable<DishTo> {
     private final Integer cost;
 
     @NotNull
-    @ApiModelProperty(example = "100005")
+    @ApiModelProperty(hidden = true)
     private final Integer restaurant_Id;
 
     @ApiModelProperty(hidden = true)

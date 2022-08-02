@@ -38,7 +38,6 @@ public class DishService {
         Dish dishCheck = repository.get(dish.getId());
         dishCheck.setDescription(dish.getDescription());
         dishCheck.setCost(dish.getCost());
-        dishCheck.setUpdateDate(LocalDate.now());
     }
 
     @CacheEvict(value = "dishes", allEntries = true)

@@ -57,19 +57,19 @@ public class DishRestController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Dish> createDishForRestaurant(@PathVariable(name = "id")
                                                         @ApiParam(name = "id", value = "Restaurant ID", example = "100006") int restaurant_Id,
-                                                        @Valid @RequestBody Dish dish) {
-        log.info("create {} for restaurant {}", dish, restaurant_Id);
+                                                        @Valid @RequestBody DishTo dishTo) {
+        log.info("create {} for restaurant {}", dishTo, restaurant_Id);
 
-        ValidationUtil.checkNew(dish);
-        Dish dishWithDate = new Dish(dish.getId(), dish.getDescription(), dish.getCost(), LocalDate.now(), restaurantService.get(restaurant_Id));
+        ValidationUtil.checkNew(dishTo);
+        Dish dishWithDate = new Dish(dishTo.getId(), dishTo.getName(), dishTo.getCost(), LocalDate.now(), restaurantService.get(restaurant_Id));
 
         dishService.create(dishWithDate, restaurant_Id);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(dish.getId()).toUri();
+                .buildAndExpand(dishTo.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(dish);
+        return ResponseEntity.created(uriOfNewResource).body(dishWithDate);
     }
 
     @ApiOperation(value = "Update a dish",
@@ -78,10 +78,10 @@ public class DishRestController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable(name = "id") @ApiParam(name = "id", value = "Dish ID", example = "100012") int dish_Id,
-                       @Valid @RequestBody Dish dish) {
+                       @Valid @RequestBody DishTo dishTo) {
         log.info("update dish with id {}", dish_Id);
-        dish.setId(dish_Id);
-        dishService.update(dish);
+        Dish dishWithDate = new Dish(dish_Id, dishTo.getName(), dishTo.getCost(), LocalDate.now());
+        dishService.update(dishWithDate);
     }
 
     @ApiOperation(value = "Delete dish",
