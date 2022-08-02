@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static topjava.quest.RestaurantTestData.RESTAURANT_100005;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
 public class DishTestData {
@@ -29,9 +30,9 @@ public class DishTestData {
 
     public static final List<Dish> dishesWhiteRabbit = List.of
             (
-                    new Dish(START_SEQ + 10, "Суп \"Жабо\"", 1400, 100005, LocalDate.now()),
-                    new Dish(START_SEQ + 11, "Фрикадельки \"Мисьён\"", 1850, 100005, LocalDate.of(2022, 4, 14)),
-                    new Dish(START_SEQ + 12, "Коктейль \"Агара\"", 100, 100005, LocalDate.now())
+                    new Dish(START_SEQ + 11, "Суп \"Жабо\"", 1400, LocalDate.now(), RESTAURANT_100005),
+                    new Dish(START_SEQ + 12, "Коктейль \"Агара\"", 760, LocalDate.now(), RESTAURANT_100005),
+                    new Dish(START_SEQ + 10, "Фрикадельки \"Мисьён\"", 1850, LocalDate.of(2022, 4, 10),RESTAURANT_100005)
             );
 
 }

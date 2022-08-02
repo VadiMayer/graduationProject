@@ -19,21 +19,21 @@ public class DataJpaRestaurantRepositoryTest extends AbstractServiceTest {
 
     @Test
     public void save() {
+        Restaurant created = serviceRestaurant.create(new Restaurant(null, "New Restaurant"));
+        int newId = created.id();
+        Restaurant newRestaurant = new Restaurant(newId, "New Restaurant");
+        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(serviceRestaurant.get(newId), newRestaurant);
     }
 
     @Test
     public void getAllRestaurants() {
-        serviceRestaurant.getAllRestaurants();
-
-    }
-
-    @Test
-    public void getBetweenRating() {
+        RESTAURANT_MATCHER.assertMatch(serviceRestaurant.getAllRestaurants(), rests);
     }
 
     @Test
     public void getWithDishes() {
-        Restaurant restaurant = serviceRestaurant.getWithDishes(rests.get(0).getRestaurant_id());
-        RESTAURANT_WITH_DISHES_MATCHER.assertMatch(restaurant, rests.get(0));
+        Restaurant restaurant = serviceRestaurant.getWithDishes(RESTAURANT_ID);
+        RESTAURANT_WITH_DISHES_MATCHER.assertMatch(restaurant, RESTAURANT_100005);
     }
 }

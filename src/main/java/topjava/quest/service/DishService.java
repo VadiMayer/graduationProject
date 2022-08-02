@@ -11,6 +11,7 @@ import topjava.quest.util.ValidationUtil;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DishService {
@@ -27,7 +28,7 @@ public class DishService {
 
     @CacheEvict(value = "dishes", allEntries = true)
     public Dish create(Dish dish, int restaurantId) {
-        ValidationUtil.checkNotFoundWithId(dish, restaurantId);
+        Objects.requireNonNull(dish, "dish mustn't be null");
         return repository.save(dish, restaurantId);
     }
 
