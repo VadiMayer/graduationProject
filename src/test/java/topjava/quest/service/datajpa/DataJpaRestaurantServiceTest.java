@@ -6,10 +6,14 @@ import topjava.quest.model.Restaurant;
 import topjava.quest.repository.DishRepository;
 import topjava.quest.service.AbstractServiceTest;
 import topjava.quest.service.RestaurantService;
+import topjava.quest.util.exception.NotFoundException;
 
-import static topjava.quest.RestaurantTestData.*;
+import javax.validation.ConstraintViolationException;
 
-public class DataJpaRestaurantRepositoryTest extends AbstractServiceTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static topjava.quest.data.RestaurantTestData.*;
+
+public class DataJpaRestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
     RestaurantService serviceRestaurant;
@@ -18,7 +22,7 @@ public class DataJpaRestaurantRepositoryTest extends AbstractServiceTest {
     DishRepository serviceDish;
 
     @Test
-    public void save() {
+    void save() {
         Restaurant created = serviceRestaurant.create(new Restaurant(null, "New Restaurant"));
         int newId = created.id();
         Restaurant newRestaurant = new Restaurant(newId, "New Restaurant");
@@ -27,13 +31,24 @@ public class DataJpaRestaurantRepositoryTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getAllRestaurants() {
+    void getAllRestaurants() {
         RESTAURANT_MATCHER.assertMatch(serviceRestaurant.getAllRestaurants(), rests);
     }
 
     @Test
-    public void getWithDishes() {
+    void getWithDishes() {
         Restaurant restaurant = serviceRestaurant.getWithDishes(RESTAURANT_ID);
         RESTAURANT_WITH_DISHES_MATCHER.assertMatch(restaurant, RESTAURANT_100005);
+    }
+
+    @Test
+    void createWithException() {
+        validateRootCause(ConstraintViolationException.class, ()-> serviceRestaurant.create(new Restaurant(null, " ")));
+        validateRootCause(ConstraintViolationException.class, ()-> serviceRestaurant.create(new Restaurant(null, "b")));
+    }
+
+    @Test
+    void deleteNotFound() {
+        assertThrows(NotFoundException.class, () -> serviceRestaurant.delete(NOT_FOUND));
     }
 }

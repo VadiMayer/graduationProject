@@ -7,10 +7,9 @@ import topjava.quest.model.Restaurant;
 import topjava.quest.repository.RestaurantRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.Comparator;
 import java.util.List;
 
-import static topjava.quest.RestaurantTestData.rests;
+import static topjava.quest.data.RestaurantTestData.rests;
 
 @Repository
 public class InMemoryRestaurantRepository extends InMemoryBaseRepository<Restaurant> implements RestaurantRepository {

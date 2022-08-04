@@ -1,14 +1,13 @@
-package topjava.quest;
+package topjava.quest.data;
 
+import topjava.quest.MatcherFactory;
 import topjava.quest.model.Dish;
-import topjava.quest.model.Restaurant;
 
 import java.time.LocalDate;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static topjava.quest.RestaurantTestData.RESTAURANT_100005;
+import static topjava.quest.data.RestaurantTestData.RESTAURANT_100005;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
 public class DishTestData {

@@ -22,6 +22,10 @@ public class VoteService {
         this.voteRepository = voteRepository;
     }
 
+    public Vote get(int id, int userId) {
+        return ValidationUtil.checkNotFoundWithId(voteRepository.get(id, userId), id);
+    }
+
     @CacheEvict(value = "votes", allEntries = true)
     public Vote create(Vote vote) {
         Objects.requireNonNull(vote, "Vote must be not null");

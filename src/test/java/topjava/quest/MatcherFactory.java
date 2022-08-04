@@ -1,5 +1,6 @@
 package topjava.quest;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,6 +28,11 @@ public class MatcherFactory {
             this.tClass = tClass;
             this.assertion = assertion;
             this.iterableAssertions = iterableAssertions;
+        }
+
+        @SafeVarargs
+        public final void assertMatch(Iterable<T> actual, T... expected) {
+            assertMatch(actual, List.of(expected));
         }
 
         public void assertMatch(T actual, T expected) {

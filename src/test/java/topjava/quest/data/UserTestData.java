@@ -1,4 +1,4 @@
-package topjava.quest;
+package topjava.quest.data;
 
 import topjava.quest.model.Role;
 import topjava.quest.model.User;

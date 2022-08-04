@@ -11,13 +11,12 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static topjava.quest.DishTestData.DISH_MATCHER;
-import static topjava.quest.DishTestData.dishList;
-import static topjava.quest.RestaurantTestData.RESTAURANT;
-import static topjava.quest.RestaurantTestData.RESTAURANT_100005;
+import static topjava.quest.data.DishTestData.DISH_MATCHER;
+import static topjava.quest.data.DishTestData.dishList;
+import static topjava.quest.data.RestaurantTestData.RESTAURANT_100005;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
-public class DataJpaDishRepositoryTest extends AbstractServiceTest {
+public class DataJpaDishServiceTest extends AbstractServiceTest {
 
     @Autowired
     private DishService dishService;
@@ -35,9 +34,9 @@ public class DataJpaDishRepositoryTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        Dish created = dishService.create(new Dish(null, "Пончики", 1004, LocalDate.now(), RESTAURANT), RESTAURANT.getRestaurant_id());
+        Dish created = dishService.create(new Dish(null, "Пончики", 1004, LocalDate.now(), RESTAURANT_100005), RESTAURANT_100005.getRestaurant_id());
         int newId = created.id();
-        Dish newDish = new Dish(newId, "Пончики", 1004, LocalDate.now(), RESTAURANT);
+        Dish newDish = new Dish(newId, "Пончики", 1004, LocalDate.now(), RESTAURANT_100005);
         DISH_MATCHER.assertMatch(created, newDish);
         DISH_MATCHER.assertMatch(dishService.get(newId), newDish);
     }

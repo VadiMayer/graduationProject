@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public class Dish extends AbstractBaseEntity {
     private String description;
 
     @Column(name = "cost", nullable = false)
+    @Range(min = 10, max = 5000)
     @NotNull
     @ApiModelProperty(example = "600")
     private int cost;
