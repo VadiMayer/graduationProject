@@ -11,8 +11,7 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static topjava.quest.data.DishTestData.DISH_MATCHER;
-import static topjava.quest.data.DishTestData.dishList;
+import static topjava.quest.data.DishTestData.*;
 import static topjava.quest.data.RestaurantTestData.RESTAURANT_100005;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
@@ -34,9 +33,9 @@ public class DataJpaDishServiceTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        Dish created = dishService.create(new Dish(null, "Пончики", 1004, LocalDate.now(), RESTAURANT_100005), RESTAURANT_100005.getRestaurant_id());
+        Dish created = dishService.create(getNewDish(), RESTAURANT_100005.getRestaurant_id());
         int newId = created.id();
-        Dish newDish = new Dish(newId, "Пончики", 1004, LocalDate.now(), RESTAURANT_100005);
+        Dish newDish = getNewDish();
         DISH_MATCHER.assertMatch(created, newDish);
         DISH_MATCHER.assertMatch(dishService.get(newId), newDish);
     }

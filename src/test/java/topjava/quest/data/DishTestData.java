@@ -34,4 +34,7 @@ public class DishTestData {
                     new Dish(START_SEQ + 10, "Фрикадельки \"Мисьён\"", 1850, LocalDate.of(2022, 4, 10),RESTAURANT_100005)
             );
 
+    public static Dish getNewDish() {
+        return new Dish(null, "Пончики", 1004, LocalDate.now(), RESTAURANT_100005);
+    }
 }

@@ -1,5 +1,6 @@
 package topjava.quest.data;
 
+import topjava.quest.MatcherFactory;
 import topjava.quest.model.Role;
 import topjava.quest.model.User;
 
@@ -8,6 +9,8 @@ import java.util.Collections;
 import static topjava.quest.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
+
+    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "roleSet", "password");
 
     public static final int ADMIN_ID = START_SEQ;
     public static final int USER_ID = START_SEQ;
