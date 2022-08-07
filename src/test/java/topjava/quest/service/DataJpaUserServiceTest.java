@@ -1,12 +1,10 @@
-package topjava.quest.service.datajpa;
+package topjava.quest.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import topjava.quest.model.Role;
 import topjava.quest.model.User;
-import topjava.quest.service.AbstractServiceTest;
-import topjava.quest.service.UserService;
 import topjava.quest.util.exception.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,12 +1,9 @@
-package topjava.quest.service.datajpa;
+package topjava.quest.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import topjava.quest.model.Dish;
-import topjava.quest.service.AbstractServiceTest;
-import topjava.quest.service.DishService;
 import topjava.quest.util.exception.NotFoundException;
-
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 
