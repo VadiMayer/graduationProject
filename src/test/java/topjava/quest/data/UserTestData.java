@@ -24,7 +24,7 @@ public class UserTestData {
     public static final User guest2 = new User(GUEST_ID + 4, "VikaGuest", "guest2@gmail.com", "vika6");
 
     public static User getNewUser() {
-        return new User(null, "NewUser", "newUser@gmail.com", "newUserPass", Role.USER);
+        return new User(null, "NewUser", "newuser@gmail.com", "newUserPass", Role.USER);
     }
 
     public static User getUpdatedUser() {

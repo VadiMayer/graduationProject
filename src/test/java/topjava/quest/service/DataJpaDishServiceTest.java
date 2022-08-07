@@ -33,6 +33,7 @@ public class DataJpaDishServiceTest extends AbstractServiceTest {
         Dish created = dishService.create(getNewDish(), RESTAURANT_100005.getRestaurant_id());
         int newId = created.id();
         Dish newDish = getNewDish();
+        newDish.setId(newId);
         DISH_MATCHER.assertMatch(created, newDish);
         DISH_MATCHER.assertMatch(dishService.get(newId), newDish);
     }
